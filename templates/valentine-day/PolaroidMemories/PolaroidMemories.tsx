@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/purity */
 // components/templates/PolaroidMemories.tsx
 
 "use client";
@@ -244,9 +245,9 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
           })}
 
           {/* Media card if exists */}
-          {data.media && (
+          {/* {data.media && (
             <MediaCard media={data.media} delay={finalItems.length * 0.1} />
-          )}
+          )} */}
         </div>
       </section>
 
@@ -419,74 +420,74 @@ function StoryCard({ story, delay }: { story: string; delay: number }) {
 }
 
 // Media Card Component
-function MediaCard({
-  media,
-  delay,
-}: {
-  media: NonNullable<TemplateData["media"]>;
-  delay: number;
-}) {
-  const getYouTubeId = (url: string) => {
-    const match = url.match(
-      /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/,
-    );
-    return match ? match[1] : "";
-  };
+// function MediaCard({
+//   media,
+//   delay,
+// }: {
+//   media: NonNullable<TemplateData["media"]>;
+//   delay: number;
+// }) {
+//   const getYouTubeId = (url: string) => {
+//     const match = url.match(
+//       /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/,
+//     );
+//     return match ? match[1] : "";
+//   };
 
-  const getSpotifyId = (url: string) => {
-    const match = url.match(/track\/([a-zA-Z0-9]+)/);
-    return match ? match[1] : "";
-  };
+//   const getSpotifyId = (url: string) => {
+//     const match = url.match(/track\/([a-zA-Z0-9]+)/);
+//     return match ? match[1] : "";
+//   };
 
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30, rotate: 2 }}
-      whileInView={{ opacity: 1, y: 0, rotate: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ delay, duration: 0.6 }}
-      className="break-inside-avoid mb-6"
-    >
-      <motion.div
-        whileHover={{ scale: 1.02, rotate: 0, zIndex: 10 }}
-        transition={{ type: "spring", stiffness: 300 }}
-        className="relative bg-white p-4 md:p-6 rounded-2xl shadow-xl transform -rotate-1"
-      >
-        {/* Tape decoration */}
-        <div className="absolute -top-3 right-8 w-16 h-6 bg-yellow-200/70 transform rotate-12 shadow-sm" />
+//   return (
+//     <motion.div
+//       initial={{ opacity: 0, y: 30, rotate: 2 }}
+//       whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+//       viewport={{ once: true, margin: "-50px" }}
+//       transition={{ delay, duration: 0.6 }}
+//       className="break-inside-avoid mb-6"
+//     >
+//       <motion.div
+//         whileHover={{ scale: 1.02, rotate: 0, zIndex: 10 }}
+//         transition={{ type: "spring", stiffness: 300 }}
+//         className="relative bg-white p-4 md:p-6 rounded-2xl shadow-xl transform -rotate-1"
+//       >
+//         {/* Tape decoration */}
+//         <div className="absolute -top-3 right-8 w-16 h-6 bg-yellow-200/70 transform rotate-12 shadow-sm" />
 
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full flex items-center justify-center">
-            {media.type === "youtube" ? (
-              <Video className="w-5 h-5 text-white" />
-            ) : (
-              <Music className="w-5 h-5 text-white" />
-            )}
-          </div>
-          <h3 className="text-xl font-handwriting text-gray-800">
-            {media.type === "youtube" ? "A Special Video" : "Our Song"}
-          </h3>
-        </div>
+//         <div className="flex items-center gap-3 mb-4">
+//           <div className="w-10 h-10 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full flex items-center justify-center">
+//             {media.type === "youtube" ? (
+//               <Video className="w-5 h-5 text-white" />
+//             ) : (
+//               <Music className="w-5 h-5 text-white" />
+//             )}
+//           </div>
+//           <h3 className="text-xl font-handwriting text-gray-800">
+//             {media.type === "youtube" ? "A Special Video" : "Our Song"}
+//           </h3>
+//         </div>
 
-        <div className="aspect-video rounded-xl overflow-hidden bg-gray-100 shadow-inner">
-          {media.type === "youtube" ? (
-            <iframe
-              src={`https://www.youtube.com/embed/${getYouTubeId(media.url)}`}
-              className="w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          ) : (
-            <iframe
-              src={`https://open.spotify.com/embed/track/${getSpotifyId(media.url)}`}
-              className="w-full h-full"
-              allow="encrypted-media"
-            />
-          )}
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-}
+//         <div className="aspect-video rounded-xl overflow-hidden bg-gray-100 shadow-inner">
+//           {media.type === "youtube" ? (
+//             <iframe
+//               src={`https://www.youtube.com/embed/${getYouTubeId(media.url)}`}
+//               className="w-full h-full"
+//               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+//               allowFullScreen
+//             />
+//           ) : (
+//             <iframe
+//               src={`https://open.spotify.com/embed/track/${getSpotifyId(media.url)}`}
+//               className="w-full h-full"
+//               allow="encrypted-media"
+//             />
+//           )}
+//         </div>
+//       </motion.div>
+//     </motion.div>
+//   );
+// }
 
 // Helper function to get YouTube ID
 function getYouTubeId(url: string): string {

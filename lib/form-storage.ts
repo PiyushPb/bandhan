@@ -1,12 +1,13 @@
 // lib/form-storage.ts
 
 import { FormState, TemplateData } from "@/types/template";
+import type { TemplateId } from "@/types/template"; // adjust import path if TemplateId is elsewhere
 
 const STORAGE_KEY = "valentine-site-draft";
 const TEMPLATE_KEY = "selected-template";
 
 type StoredTemplate = {
-  id: string;
+  id: TemplateId;
   price: number;
 };
 
@@ -79,7 +80,7 @@ export const formStorage = {
     }
 
     return {
-      id: data.selectedTemplate as string,
+      id: data.selectedTemplate as TemplateId,
       price: data.templatePrice as number,
     };
   },

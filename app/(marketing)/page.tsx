@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 // Refined animation variants
 const fadeInUp = {
@@ -19,6 +20,8 @@ const staggerContainer = {
 };
 
 export default function Home() {
+  const router = useRouter();
+
   return (
     <main className="bg-white antialiased">
       {/* Navigation */}
@@ -95,6 +98,9 @@ export default function Home() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="w-full sm:w-auto bg-white text-neutral-900 px-8 py-4 rounded-full text-base font-medium hover:bg-neutral-100 transition-all duration-300 shadow-lg hover:shadow-xl"
+                onClick={() => {
+                  router.push("/occasions");
+                }}
               >
                 Create your site
               </motion.button>

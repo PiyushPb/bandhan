@@ -34,9 +34,9 @@ export default function OccasionCard({ occasion }: { occasion: Occasion }) {
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
             sizes="(max-width: 768px) 100vw, 33vw"
-            priority={occasion.id === "valentine"}
+            priority={occasion.slug === "valentine"}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/10 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/30 via-black/10 to-transparent" />
         </div>
 
         <h3 className="mb-3 text-xl font-semibold text-neutral-900">

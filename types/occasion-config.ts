@@ -1,5 +1,5 @@
 import { Template } from "@/types/template";
-import { ReactNode } from "react";
+import { JSX, ReactNode } from "react";
 
 export type OccasionConfig = {
   slug: string;

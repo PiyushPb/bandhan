@@ -1,14 +1,14 @@
-import { OCCASIONS } from "@/data/occasions";
+import { occasions } from "@/data/occasions";
 import { OccasionSlug } from "@/types/occasion";
 
 export function getAllOccasions() {
-  return OCCASIONS;
+  return occasions;
 }
 
 export function getOccasionBySlug(slug: string) {
-  return OCCASIONS.find((o) => o.slug === slug) ?? null;
+  return occasions.find((o) => o.slug === slug) ?? null;
 }
 
 export function isValidOccasionSlug(slug: string): slug is OccasionSlug {
-  return OCCASIONS.some((o) => o.slug === slug);
+  return occasions.some((o) => o.slug === slug);
 }
