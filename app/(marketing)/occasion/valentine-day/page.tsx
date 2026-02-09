@@ -47,8 +47,7 @@ export default function TemplateSelectionPage() {
       currentStep: 1,
     });
 
-    console.log(formStorage.load());
-    // router.push("/create/content");
+    router.push(`/create/valentine-day/${selectedTemplate}`);
   };
 
   return (

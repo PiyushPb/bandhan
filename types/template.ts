@@ -15,6 +15,7 @@ export interface Template {
   price: number;
   badge?: string;
   isPremium?: boolean;
+  maxPhotos?: number;
 }
 
 export interface PhotoData {
