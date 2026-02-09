@@ -220,32 +220,32 @@ export default function PreviewPage() {
         animate={{ y: 0 }}
         className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-pink-100 shadow-sm"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-14 sm:h-16 gap-2">
             {/* Back button */}
             <motion.button
               onClick={() => router.push(`/create/valentine-day/${templateId}`)}
-              className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors"
+              className="flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 transition-colors p-2 -ml-2"
               whileHover={{ x: -4 }}
               whileTap={{ scale: 0.95 }}
             >
               <ArrowLeft className="w-5 h-5" />
-              <span className="hidden sm:inline">Edit</span>
+              <span className="hidden sm:inline text-sm">Edit</span>
             </motion.button>
 
-            {/* Title */}
-            <div className="flex items-center gap-2">
-              <Shield className="w-4 h-4 text-green-500" />
-              <span className="text-sm font-medium text-gray-700">
+            {/* Title - hidden on very small screens */}
+            <div className="hidden xs:flex items-center gap-1 sm:gap-2">
+              <Shield className="w-3 h-3 sm:w-4 sm:h-4 text-green-500" />
+              <span className="text-xs sm:text-sm font-medium text-gray-700 truncate max-w-[120px] sm:max-w-none">
                 Preview: {templateName}
               </span>
             </div>
 
-            {/* Action buttons */}
-            <div className="flex items-center gap-3">
+            {/* Action buttons - responsive layout */}
+            <div className="flex items-center gap-2 sm:gap-3">
               <motion.button
                 onClick={() => router.push(`/create/valentine-day/${templateId}`)}
-                className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-800 font-medium"
+                className="flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 text-gray-600 hover:text-gray-800 font-medium text-sm"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -258,37 +258,42 @@ export default function PreviewPage() {
                   // TODO: Navigate to payment
                   alert("Payment step coming soon!");
                 }}
-                className="flex items-center gap-2 px-6 py-2 
+                className="flex items-center gap-1 sm:gap-2 px-4 sm:px-6 py-2 
                   bg-gradient-to-r from-pink-500 to-rose-500 
                   text-white rounded-full font-semibold shadow-lg
-                  hover:shadow-xl transition-all"
+                  hover:shadow-xl transition-all text-sm sm:text-base"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
                 <CreditCard className="w-4 h-4" />
-                <span>Proceed to Pay</span>
+                <span className="xs:hidden">Pay</span>
+                <span className="hidden xs:inline sm:hidden">Pay</span>
+                <span className="hidden sm:inline">Proceed to Pay</span>
               </motion.button>
             </div>
           </div>
         </div>
       </motion.header>
 
-      {/* Preview notice */}
-      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
+      {/* Preview notice - responsive */}
+      <div className="fixed bottom-4 left-4 right-4 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 z-50">
         <motion.div
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 1 }}
-          className="flex items-center gap-2 px-4 py-2 bg-amber-100 text-amber-800 
-            rounded-full text-sm font-medium shadow-lg border border-amber-200"
+          className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-amber-100 text-amber-800 
+            rounded-full text-xs sm:text-sm font-medium shadow-lg border border-amber-200"
         >
-          <AlertTriangle className="w-4 h-4" />
-          <span>This is a local preview only. Complete payment to get your shareable link!</span>
+          <AlertTriangle className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+          <span className="text-center line-clamp-2 sm:line-clamp-1">
+            <span className="hidden sm:inline">This is a local preview only. Complete payment to get your shareable link!</span>
+            <span className="sm:hidden">Local preview only. Pay to get shareable link!</span>
+          </span>
         </motion.div>
       </div>
 
       {/* Template content with top padding for fixed header */}
-      <div className="pt-16">
+      <div className="pt-14 sm:pt-16 pb-20 sm:pb-16">
         {renderTemplate()}
       </div>
     </div>

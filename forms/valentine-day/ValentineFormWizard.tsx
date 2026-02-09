@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ArrowRight, Check, Save, SkipForward, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { FormProgress, StepInfo } from "@/components/forms";
 import { TemplateId } from "@/types/template";
 import { useValentineForm } from "./useValentineForm";
@@ -12,7 +13,6 @@ import {
   PhotosStep,
   FinalMessageStep,
   SecretLetterStep,
-  PreviewStep,
 } from "./steps";
 
 interface ValentineFormWizardProps {
@@ -46,6 +46,8 @@ export default function ValentineFormWizard({
     skipStep,
   } = useValentineForm({ templateId });
 
+  const router = useRouter();
+
   // Convert steps to StepInfo format
   const stepInfos: StepInfo[] = steps.map((s) => ({
     id: s.id,
@@ -53,10 +55,11 @@ export default function ValentineFormWizard({
     description: s.description,
   }));
 
-  // Handle form completion
+  // Handle form completion - redirect to full preview page
   const handleComplete = () => {
     if (nextStep()) {
-      // All steps completed
+      // All steps completed - redirect to preview page
+      router.push(`/preview/valentine-day/${templateId}`);
       onComplete?.();
     }
   };
@@ -126,15 +129,6 @@ export default function ValentineFormWizard({
             fromName={formData.basicInfo.fromName}
             errors={errors.secretLetter}
             onUpdate={updateSecretLetter}
-          />
-        );
-
-      case "preview":
-        return (
-          <PreviewStep
-            templateId={templateId}
-            data={formData}
-            onEdit={() => goToStep(0)}
           />
         );
 

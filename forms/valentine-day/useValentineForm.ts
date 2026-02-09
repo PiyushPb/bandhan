@@ -47,11 +47,7 @@ export const FORM_STEPS: StepConfig[] = [
     isOptional: true,
     forTemplates: ["love-timeline", "polaroid-memories"],
   },
-  {
-    id: "preview",
-    title: "Preview",
-    description: "See your creation",
-  },
+  // Preview step removed - form now redirects to full preview page on completion
 ];
 
 // Validation errors type
