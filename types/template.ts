@@ -16,6 +16,8 @@ export interface Template {
   badge?: string;
   isPremium?: boolean;
   maxPhotos?: number;
+  status?: "active" | "sold-out";
+  tag?: string;
 }
 
 export interface PhotoData {

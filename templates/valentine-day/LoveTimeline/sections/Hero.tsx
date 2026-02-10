@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, MotionValue } from "framer-motion";
 import ParticleBackground from "@/components/ui/ParticleBackground";
-import { Heart, Sparkles } from "lucide-react";
+import { Heart } from "lucide-react";
 import { TemplateData } from "@/types/template";
 
 interface Props {
@@ -58,36 +58,25 @@ function Hero({ data, heroOpacity, heroScale }: Props) {
       style={{ opacity: heroOpacity, scale: heroScale }}
       className="min-h-screen flex items-center justify-center px-6 sticky top-0 relative overflow-hidden"
     >
-      {/* Particle Background */}
+      {/* Subtle Particle Background — reduced count */}
       <ParticleBackground
-        particleCount={40}
-        shapes={["heart", "sparkle", "circle"]}
+        particleCount={15}
+        shapes={["heart", "sparkle"]}
         colorTheme="romantic"
         blur={true}
       />
 
-      {/* Gradient background blobs */}
+      {/* Soft gradient blobs — simplified to 2 */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
-          animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-pink-400/30 to-transparent rounded-full blur-3xl"
+          animate={{ scale: [1, 1.15, 1], rotate: [0, 60, 0] }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-pink-300/20 to-transparent rounded-full blur-3xl"
         />
         <motion.div
-          animate={{ scale: [1.2, 1, 1.2], rotate: [90, 0, 90] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-tl from-rose-400/30 to-transparent rounded-full blur-3xl"
-        />
-        {/* Additional bokeh layers */}
-        <motion.div
-          animate={{ x: [0, 50, 0], y: [0, -30, 0] }}
-          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/4 left-1/4 w-64 h-64 bg-pink-300/20 rounded-full blur-3xl"
-        />
-        <motion.div
-          animate={{ x: [0, -40, 0], y: [0, 40, 0] }}
-          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-rose-300/20 rounded-full blur-3xl"
+          animate={{ scale: [1.1, 1, 1.1], rotate: [60, 0, 60] }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-tl from-rose-300/20 to-transparent rounded-full blur-3xl"
         />
       </div>
 
@@ -98,48 +87,27 @@ function Hero({ data, heroOpacity, heroScale }: Props) {
         transition={{ duration: 1, ease: "easeOut" }}
         className="text-center z-10 max-w-4xl relative"
       >
-        {/* Multi-layered animated heart */}
-        <div className="relative mb-8 inline-block">
-          {/* Outer glow pulse */}
+        {/* Single elegant animated heart */}
+        <div className="relative mb-10 inline-block">
           <motion.div
             animate={{
-              scale: [1, 1.4, 1],
-              opacity: [0.3, 0.6, 0.3],
+              scale: [1, 1.12, 1],
             }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute inset-0 flex items-center justify-center"
-          >
-            <Heart className="w-32 h-32 md:w-40 md:h-40 text-pink-300/50 fill-pink-300/30" />
-          </motion.div>
-          {/* Middle layer */}
-          <motion.div
-            animate={{
-              scale: [1, 1.15, 1],
-            }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
             className="relative"
           >
-            <Heart className="w-24 h-24 md:w-32 md:h-32 mx-auto text-pink-400/70 fill-pink-400/50" />
+            <Heart className="w-20 h-20 md:w-28 md:h-28 mx-auto text-pink-500 fill-pink-500 drop-shadow-lg" />
           </motion.div>
-          {/* Inner heart */}
+          {/* Soft glow behind */}
           <motion.div
             animate={{
-              scale: [1, 1.2, 1],
+              scale: [1, 1.3, 1],
+              opacity: [0.2, 0.4, 0.2],
             }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute inset-0 flex items-center justify-center"
+            className="absolute inset-0 flex items-center justify-center -z-10"
           >
-            <Heart className="w-20 h-20 md:w-28 md:h-28 text-pink-500 fill-pink-500" />
-          </motion.div>
-          {/* Sparkles around heart */}
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-            className="absolute inset-0"
-          >
-            <Sparkles className="absolute -top-4 left-1/2 -translate-x-1/2 w-6 h-6 text-yellow-400" />
-            <Sparkles className="absolute top-1/2 -right-6 -translate-y-1/2 w-5 h-5 text-pink-300" />
-            <Sparkles className="absolute -bottom-2 left-1/4 w-4 h-4 text-rose-300" />
+            <div className="w-32 h-32 md:w-40 md:h-40 bg-pink-400/20 rounded-full blur-2xl" />
           </motion.div>
         </div>
 
@@ -203,8 +171,8 @@ function Hero({ data, heroOpacity, heroScale }: Props) {
             {data.basicInfo.fromName}
           </motion.span>
           <motion.span
-            animate={{ scale: [1, 1.2, 1] }}
-            transition={{ duration: 1.5, repeat: Infinity, delay: 0.5 }}
+            animate={{ scale: [1, 1.15, 1] }}
+            transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
             className="inline-block ml-2"
           >
             💕

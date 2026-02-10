@@ -11,24 +11,24 @@ type ConfettiIntensity = "light" | "medium" | "heavy" | "burst";
 interface ConfettiProps {
   theme?: ConfettiTheme;
   intensity?: ConfettiIntensity;
-  trigger?: boolean; // When true, triggers a burst
-  continuous?: boolean; // Keep animating or one-shot
+  trigger?: boolean;
+  continuous?: boolean;
   className?: string;
 }
 
 const CONFETTI_THEMES: Record<ConfettiTheme, string[]> = {
-  hearts: ["❤️", "💕", "💖", "💗", "💝", "💓", "💞", "💘"],
-  party: ["🎉", "🎊", "🎈", "🎁", "🥳", "🎀", "🎇", "🎆"],
-  stars: ["✨", "⭐", "🌟", "💫", "⭐", "✨", "🌟", "💫"],
-  romance: ["🌹", "💐", "🌸", "🌺", "🌷", "💮", "🏵️", "💝"],
-  celebration: ["❤️", "💕", "🎉", "🎊", "✨", "🌟", "🌹", "💖"],
+  hearts: ["❤️", "💕", "💖", "💗", "💝"],
+  party: ["🎉", "🎊", "🎈", "🎁", "🎀"],
+  stars: ["✨", "⭐", "🌟", "💫"],
+  romance: ["🌹", "🌸", "🌷", "💐"],
+  celebration: ["❤️", "💕", "✨", "🌹", "💖"],
 };
 
 const INTENSITY_CONFIG: Record<ConfettiIntensity, { count: number; duration: number; delay: number }> = {
-  light: { count: 15, duration: 4, delay: 0.15 },
-  medium: { count: 30, duration: 3, delay: 0.1 },
-  heavy: { count: 50, duration: 2.5, delay: 0.05 },
-  burst: { count: 80, duration: 2, delay: 0.02 },
+  light: { count: 6, duration: 5, delay: 0.3 },
+  medium: { count: 10, duration: 4.5, delay: 0.2 },
+  heavy: { count: 18, duration: 3.5, delay: 0.1 },
+  burst: { count: 30, duration: 3, delay: 0.05 },
 };
 
 interface ConfettiPiece {
@@ -60,11 +60,11 @@ export default function Confetti({
       const newPieces: ConfettiPiece[] = Array.from({ length: config.count }, (_, i) => ({
         id: i,
         emoji: confettiItems[i % confettiItems.length],
-        startX: 50 + (Math.random() - 0.5) * 20, // Start near center
-        endX: Math.random() * 100, // End anywhere
+        startX: 50 + (Math.random() - 0.5) * 20,
+        endX: Math.random() * 100,
         endY: Math.random() * 100,
-        rotation: Math.random() * 720 - 360,
-        size: Math.random() * 1.5 + 0.8,
+        rotation: Math.random() * 360 - 180,
+        size: Math.random() * 1 + 0.6,
         delay: i * config.delay,
       }));
       setPieces(newPieces);
@@ -93,8 +93,8 @@ export default function Confetti({
             y: "-50%",
           }}
           animate={{
-            scale: [0, 1.5, 1.2, 0.8, 0],
-            opacity: [0, 1, 1, 0.8, 0],
+            scale: [0, 1.2, 1, 0.6, 0],
+            opacity: [0, 0.8, 0.7, 0.4, 0],
             rotate: [0, piece.rotation],
             x: [`-50%`, `${(piece.endX - piece.startX) * 2}%`],
             y: [`-50%`, `${piece.endY - 50}%`],
@@ -103,7 +103,7 @@ export default function Confetti({
             duration: config.duration,
             delay: piece.delay,
             repeat: continuous ? Infinity : 0,
-            repeatDelay: continuous ? 2 : 0,
+            repeatDelay: continuous ? 3 : 0,
             ease: "easeOut",
           }}
         >
@@ -144,36 +144,36 @@ export function ConfettiBurst({
   );
 }
 
-// Flying hearts that float upward
+// Flying hearts that float upward — reduced count and subtler
 export function FlyingHearts({
-  count = 20,
+  count = 8,
   className = "",
 }: {
   count?: number;
   className?: string;
 }) {
-  const hearts = ["❤️", "💕", "💖", "💗", "💝"];
+  const hearts = ["❤️", "💕", "💖"];
 
   return (
     <div className={`absolute inset-0 pointer-events-none overflow-hidden ${className}`}>
       {Array.from({ length: count }, (_, i) => (
         <motion.div
           key={i}
-          className="absolute text-2xl md:text-3xl"
+          className="absolute text-xl md:text-2xl"
           style={{
             left: `${Math.random() * 100}%`,
             bottom: "-10%",
           }}
           animate={{
-            y: [0, "-120vh"],
-            x: [0, (Math.random() - 0.5) * 100],
-            rotate: [0, Math.random() * 360],
-            opacity: [0, 1, 1, 0],
-            scale: [0.5, 1, 1, 0.5],
+            y: [0, "-110vh"],
+            x: [0, (Math.random() - 0.5) * 60],
+            rotate: [0, Math.random() * 180],
+            opacity: [0, 0.6, 0.5, 0],
+            scale: [0.4, 0.8, 0.7, 0.3],
           }}
           transition={{
-            duration: 4 + Math.random() * 3,
-            delay: i * 0.2,
+            duration: 5 + Math.random() * 4,
+            delay: i * 0.4,
             repeat: Infinity,
             ease: "easeOut",
           }}

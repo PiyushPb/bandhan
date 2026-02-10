@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Template, TemplateId } from "@/types/template";
+import { TemplateId } from "@/types/template";
 import { formStorage } from "@/lib/form-storage";
 import { TEMPLATES } from "./data/Template";
 
@@ -10,8 +10,6 @@ import HeartDroppingBG from "@/components/bg/HeartDroppingBG";
 import PageHeader from "./components/PageHeader";
 import TemplateGrid from "./components/TemplateGrid";
 import ContinueButton from "./components/ContinueButton";
-import NotSurePreview from "./components/NotSurePreview";
-import PreviewModal from "./components/PreviewModal";
 
 export default function TemplateSelectionPage() {
   const router = useRouter();
@@ -19,7 +17,6 @@ export default function TemplateSelectionPage() {
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateId | null>(
     null,
   );
-  const [previewTemplate, setPreviewTemplate] = useState<Template | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -29,13 +26,17 @@ export default function TemplateSelectionPage() {
 
   const handleSelectTemplate = (templateId: TemplateId) => {
     const template = TEMPLATES.find((t) => t.id === templateId);
-    if (!template) return;
+    if (!template || template.status === "sold-out") return;
 
     setSelectedTemplate(templateId);
     formStorage.save({
       selectedTemplate: templateId,
       templatePrice: template.price,
     });
+  };
+
+  const handlePreviewTemplate = (templateId: TemplateId) => {
+    router.push(`/preview/valentine-day/${templateId}?demo=true`);
   };
 
   const handleContinue = () => {
@@ -61,7 +62,7 @@ export default function TemplateSelectionPage() {
           templates={TEMPLATES}
           selectedTemplate={selectedTemplate}
           onSelect={handleSelectTemplate}
-          onPreview={setPreviewTemplate}
+          onPreview={(template) => handlePreviewTemplate(template.id)}
         />
 
         <ContinueButton
@@ -69,20 +70,7 @@ export default function TemplateSelectionPage() {
           loading={isLoading}
           onClick={handleContinue}
         />
-
-        {/* <NotSurePreview onPreview={() => setPreviewTemplate(TEMPLATES[0])} /> */}
       </main>
-
-      {previewTemplate && (
-        <PreviewModal
-          template={previewTemplate}
-          onClose={() => setPreviewTemplate(null)}
-          onChoose={() => {
-            handleSelectTemplate(previewTemplate.id);
-            setPreviewTemplate(null);
-          }}
-        />
-      )}
     </div>
   );
 }

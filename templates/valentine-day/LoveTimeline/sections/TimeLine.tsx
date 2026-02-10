@@ -340,10 +340,10 @@ function TimeLine({ data }: Props) {
             </div>
 
             {/* Confetti with hearts theme */}
-            <Confetti theme="hearts" intensity="medium" />
+            <Confetti theme="hearts" intensity="light" />
             
             {/* Flying hearts on viewport enter */}
-            {showFinalHearts && <FlyingHearts count={15} />}
+            {showFinalHearts && <FlyingHearts count={5} />}
           </motion.div>
         </TimelineItem>
 

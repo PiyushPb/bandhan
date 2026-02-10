@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { TemplateData, TemplateId } from "@/types/template";
 import { TEMPLATES } from "@/data/templates/valentine";
+import { DEMO_DATA } from "@/data/templates/demoData";
 import { formStorage } from "@/lib/form-storage";
 import { motion } from "framer-motion";
 import { 
@@ -14,7 +15,8 @@ import {
   Shield, 
   AlertTriangle,
   Loader2,
-  Lock
+  Lock,
+  Sparkles
 } from "lucide-react";
 
 // Dynamically import templates
@@ -116,8 +118,9 @@ export default function PreviewPage() {
   const templateIdParam = params.templateId as string;
   const templateId = TEMPLATE_ID_MAP[templateIdParam];
   
-  // Check if in embedded mode (iframe)
+  // Check if in embedded mode (iframe) or demo mode
   const isEmbedded = searchParams.get("embedded") === "true";
+  const isDemo = searchParams.get("demo") === "true";
 
   useEffect(() => {
     // Validate template ID
@@ -134,6 +137,18 @@ export default function PreviewPage() {
       return;
     }
     setTemplateName(template.name);
+
+    // Demo mode — use hardcoded demo data
+    if (isDemo) {
+      const demoData = DEMO_DATA[templateId];
+      if (demoData) {
+        setFormData(demoData);
+      } else {
+        setAccessError("Demo not available for this template.");
+      }
+      setIsLoading(false);
+      return;
+    }
 
     // Load and validate form data from localStorage
     const saved = formStorage.load();
@@ -169,7 +184,7 @@ export default function PreviewPage() {
     });
     
     setIsLoading(false);
-  }, [templateId]);
+  }, [templateId, isDemo]);
 
   // Render template
   const renderTemplate = () => {
@@ -211,7 +226,76 @@ export default function PreviewPage() {
     );
   }
 
-  // Full page mode with header and footer
+  // Demo mode - render with a demo banner and back button
+  if (isDemo) {
+    return (
+      <div className="min-h-screen relative">
+        {/* Demo header */}
+        <motion.header
+          initial={{ y: -100 }}
+          animate={{ y: 0 }}
+          className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-pink-100 shadow-sm"
+        >
+          <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-14 sm:h-16 gap-2">
+              <motion.button
+                onClick={() => router.push("/occasion/valentine-day")}
+                className="flex items-center gap-1 sm:gap-2 text-gray-600 hover:text-gray-800 transition-colors p-2 -ml-2"
+                whileHover={{ x: -4 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <ArrowLeft className="w-5 h-5" />
+                <span className="hidden sm:inline text-sm">Back</span>
+              </motion.button>
+
+              <div className="flex items-center gap-1 sm:gap-2">
+                <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-purple-500" />
+                <span className="text-xs sm:text-sm font-medium text-gray-700">
+                  Demo: {templateName}
+                </span>
+              </div>
+
+              <motion.button
+                onClick={() => router.push("/occasion/valentine-day")}
+                className="flex items-center gap-1 sm:gap-2 px-4 sm:px-6 py-2 
+                  bg-gradient-to-r from-pink-500 to-rose-500 
+                  text-white rounded-full font-semibold shadow-lg
+                  hover:shadow-xl transition-all text-sm sm:text-base"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Create Yours
+              </motion.button>
+            </div>
+          </div>
+        </motion.header>
+
+        {/* Demo notice */}
+        <div className="fixed bottom-4 left-4 right-4 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 z-50">
+          <motion.div
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 1 }}
+            className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-purple-100 text-purple-800 
+              rounded-full text-xs sm:text-sm font-medium shadow-lg border border-purple-200"
+          >
+            <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+            <span className="text-center">
+              <span className="hidden sm:inline">This is a demo preview with sample data. Create yours to personalize!</span>
+              <span className="sm:hidden">Demo preview with sample data</span>
+            </span>
+          </motion.div>
+        </div>
+
+        {/* Template content */}
+        <div className="pt-14 sm:pt-16 pb-20 sm:pb-16">
+          {renderTemplate()}
+        </div>
+      </div>
+    );
+  }
+
+  // Full page mode with header and footer (user's own preview)
   return (
     <div className="min-h-screen relative">
       {/* Floating header */}
@@ -299,4 +383,3 @@ export default function PreviewPage() {
     </div>
   );
 }
-

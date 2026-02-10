@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Template, TemplateId } from "@/types/template";
 import TemplatePreviewCard from "@/components/valentine/TemplatePreviewCard";
+import { Sparkles } from "lucide-react";
 
 type Props = {
   templates: Template[];
@@ -20,13 +21,23 @@ export default function TemplateGrid({
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center mb-12"
+        className="text-center mb-14"
       >
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.1 }}
+          className="inline-flex items-center gap-2 px-4 py-1.5 bg-pink-50 text-pink-600 rounded-full text-sm font-medium mb-5"
+        >
+          <Sparkles className="w-4 h-4" />
+          Valentine&apos;s Day Collection
+        </motion.div>
+
+        <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-gray-900 via-pink-800 to-rose-700 bg-clip-text text-transparent">
           Choose Your Template
         </h1>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-          Pick a design that matches your vibe. Preview before choosing!
+        <p className="text-lg text-gray-500 max-w-xl mx-auto">
+          Pick a design that matches your vibe. Click preview to see it live with sample data!
         </p>
       </motion.div>
 

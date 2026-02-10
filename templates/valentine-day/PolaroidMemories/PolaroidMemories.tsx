@@ -8,12 +8,11 @@ import { TemplateData } from "@/types/template";
 import { useRef, useMemo } from "react";
 import PolaroidCard from "./components/PolaroidCard";
 import ScrapbookElement from "./components/ScrapbookElement";
-import FloatingStickers from "./components/FloatingStickers";
 import ScratchReveal from "./components/ScratchReveal";
 import ParticleBackground from "@/components/ui/ParticleBackground";
 import LightboxGallery, { useLightbox } from "@/components/ui/LightboxGallery";
 import Confetti, { FlyingHearts } from "@/components/ui/Confetti";
-import { Heart, Sparkles, Camera, Star } from "lucide-react";
+import { Heart, Camera } from "lucide-react";
 
 interface PolaroidMemoriesProps {
   data: TemplateData;
@@ -39,12 +38,10 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
     | { type: "reason"; content: string; index: number };
 
   const masonryItems = useMemo<MasonryItem[]>(() => {
-    // Story card first
     const items: MasonryItem[] = [
       { type: "story", content: data.story },
     ];
     
-    // Interleave photos and reasons for visual variety
     const maxLength = Math.max(data.photos.length, data.reasons.length);
     for (let i = 0; i < maxLength; i++) {
       if (i < data.photos.length) {
@@ -71,9 +68,9 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
       ref={containerRef}
       className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-pink-50 relative overflow-hidden"
     >
-      {/* Particle Background */}
+      {/* Subtle Particle Background — reduced */}
       <ParticleBackground
-        particleCount={25}
+        particleCount={10}
         shapes={["heart", "sparkle"]}
         colorTheme="pastel"
         blur={true}
@@ -81,71 +78,30 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
 
       {/* Textured background overlay */}
       <div
-        className="absolute inset-0 opacity-25"
+        className="absolute inset-0 opacity-15"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4a574' fill-opacity='0.12'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4a574' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
         }}
       />
-
-      {/* Floating decorative elements */}
-      <FloatingStickers />
 
       {/* Hero Section */}
       <motion.section
         style={{ y: headerY, opacity: headerOpacity }}
         className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-20"
       >
-        {/* Handwritten title with enhanced styling */}
+        {/* Handwritten title with clean styling */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9, rotate: -2 }}
-          animate={{ opacity: 1, scale: 1, rotate: 0 }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
           className="text-center mb-12 relative"
         >
-          {/* Paper texture background with shadow */}
+          {/* Single paper background */}
           <motion.div 
-            animate={{ rotate: [1, 2, 1] }}
-            transition={{ duration: 5, repeat: Infinity }}
-            className="absolute inset-0 -m-10 bg-white/70 backdrop-blur-sm rounded-3xl transform rotate-1 shadow-2xl" 
-          />
-          <motion.div 
-            animate={{ rotate: [-2, -1, -2] }}
-            transition={{ duration: 6, repeat: Infinity }}
-            className="absolute inset-0 -m-10 bg-white/50 backdrop-blur-sm rounded-3xl transform -rotate-2 shadow-xl" 
+            className="absolute inset-0 -m-10 bg-white/60 backdrop-blur-sm rounded-3xl shadow-2xl" 
           />
 
           <div className="relative z-10 p-10">
-            {/* Decorative hearts with glow */}
-            <motion.div
-              animate={{
-                rotate: [0, 15, 0],
-                scale: [1, 1.2, 1],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              className="absolute -top-8 -left-8 text-5xl drop-shadow-lg"
-            >
-              💕
-            </motion.div>
-            <motion.div
-              animate={{
-                rotate: [0, -15, 0],
-                scale: [1, 1.2, 1],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 0.5,
-              }}
-              className="absolute -top-8 -right-8 text-5xl drop-shadow-lg"
-            >
-              💖
-            </motion.div>
-
             {/* Names with handwriting font */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 mb-6">
               <motion.span 
@@ -157,8 +113,8 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
                 {data.basicInfo.toName}
               </motion.span>
               <motion.span
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
+                animate={{ scale: [1, 1.15, 1] }}
+                transition={{ duration: 2.5, repeat: Infinity }}
                 className="text-pink-500 text-4xl sm:text-5xl"
               >
                 ❤️
@@ -173,7 +129,7 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
               </motion.span>
             </div>
 
-            {/* Greeting with animated underline */}
+            {/* Greeting */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -184,7 +140,6 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
                 {data.basicInfo.greeting}
               </span>
 
-              {/* Animated underline */}
               <svg
                 className="absolute -bottom-2 left-0 right-0 w-full"
                 height="12"
@@ -205,23 +160,14 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
             </motion.p>
           </div>
 
-          {/* Wax seal decoration */}
+          {/* Wax seal — simplified */}
           <motion.div
             initial={{ scale: 0, rotate: 0 }}
             animate={{ scale: 1, rotate: 360 }}
             transition={{ delay: 1.5, duration: 0.8, type: "spring" }}
-            className="absolute -bottom-10 right-4 sm:right-12 w-20 h-20 bg-gradient-to-br from-red-500 via-rose-500 to-pink-600 rounded-full shadow-xl flex items-center justify-center border-4 border-white"
+            className="absolute -bottom-10 right-4 sm:right-12 w-16 h-16 bg-gradient-to-br from-red-500 via-rose-500 to-pink-600 rounded-full shadow-xl flex items-center justify-center border-3 border-white"
           >
-            <Heart className="w-10 h-10 text-white fill-white" />
-          </motion.div>
-
-          {/* Star decorations */}
-          <motion.div
-            animate={{ rotate: 360, scale: [0.8, 1, 0.8] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-            className="absolute -bottom-6 -left-4"
-          >
-            <Star className="w-8 h-8 text-yellow-400 fill-yellow-400" />
+            <Heart className="w-8 h-8 text-white fill-white" />
           </motion.div>
         </motion.div>
 
@@ -246,7 +192,6 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
               <p className="text-sm font-handwriting text-gray-600">
                 Scroll to see our memories
               </p>
-              <Sparkles className="w-5 h-5 text-pink-400" />
             </div>
             <svg
               className="w-6 h-6 text-pink-400"
@@ -267,7 +212,7 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
 
       {/* Masonry Grid Section */}
       <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        {/* Section decorations */}
+        {/* Section decorations — kept minimal */}
         <ScrapbookElement type="star" position="top-left" />
         <ScrapbookElement type="heart" position="top-right" />
 
@@ -278,20 +223,16 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <motion.div
-            animate={{ rotate: [0, 360] }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            className="inline-block mb-4"
-          >
-            <div className="w-16 h-16 bg-gradient-to-br from-pink-100 to-rose-100 rounded-full flex items-center justify-center shadow-lg">
-              <Camera className="w-8 h-8 text-pink-500" />
+          <div className="inline-block mb-4">
+            <div className="w-14 h-14 bg-gradient-to-br from-pink-100 to-rose-100 rounded-full flex items-center justify-center shadow-md">
+              <Camera className="w-7 h-7 text-pink-500" />
             </div>
-          </motion.div>
+          </div>
           <h2 className="text-3xl md:text-4xl font-handwriting text-gray-800 mb-2">
             Our Beautiful Memories
           </h2>
           <p className="text-gray-600 font-handwriting text-lg">
-            ✨ Every moment with you is precious ✨
+            Every moment with you is precious ✨
           </p>
         </motion.div>
 
@@ -369,33 +310,24 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
         </section>
       )}
 
-      {/* Final Message Section */}
+      {/* Final Message Section — cleaned up */}
       <section className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <motion.div
-          initial={{ opacity: 0, scale: 0.9, rotate: 0 }}
-          whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
           className="relative"
         >
-          {/* Layered paper effect */}
+          {/* Single paper effect */}
           <motion.div 
-            animate={{ rotate: [2, 3, 2] }}
-            transition={{ duration: 5, repeat: Infinity }}
-            className="absolute inset-0 bg-white rounded-3xl transform rotate-2 shadow-2xl" 
-          />
-          <motion.div 
-            animate={{ rotate: [-1, -2, -1] }}
-            transition={{ duration: 6, repeat: Infinity }}
-            className="absolute inset-0 bg-white rounded-3xl transform -rotate-1 shadow-xl" 
+            className="absolute inset-0 bg-white rounded-3xl transform rotate-1 shadow-xl" 
           />
 
           {/* Main card */}
-          <div className="relative bg-gradient-to-br from-white via-pink-50 to-rose-50 rounded-3xl p-8 md:p-12 lg:p-16 border-4 border-white shadow-2xl overflow-hidden">
-            {/* Decorative tape strips */}
-            <div className="absolute -top-3 left-1/4 w-28 h-7 bg-yellow-200/70 transform -rotate-12 shadow-sm" />
-            <div className="absolute -top-3 right-1/4 w-24 h-6 bg-pink-200/70 transform rotate-12 shadow-sm" />
-            <div className="absolute -bottom-3 left-1/3 w-32 h-6 bg-blue-200/60 transform rotate-6 shadow-sm" />
+          <div className="relative bg-gradient-to-br from-white via-pink-50 to-rose-50 rounded-3xl p-8 md:p-12 lg:p-16 border-2 border-white shadow-2xl overflow-hidden">
+            {/* Minimal tape strip */}
+            <div className="absolute -top-3 left-1/4 w-24 h-6 bg-yellow-200/60 transform -rotate-6 shadow-sm" />
 
             {/* Content */}
             <motion.div
@@ -405,22 +337,6 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
               transition={{ delay: 0.3 }}
               className="text-center relative"
             >
-              {/* Decorative flourish */}
-              <motion.div
-                animate={{
-                  scale: [1, 1.15, 1],
-                  rotate: [0, 10, 0],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="mb-8"
-              >
-                <Sparkles className="w-16 h-16 md:w-20 md:h-20 mx-auto text-pink-400" />
-              </motion.div>
-
               {/* Message */}
               <p className="text-2xl md:text-3xl lg:text-4xl font-handwriting text-gray-800 leading-relaxed whitespace-pre-line mb-10">
                 {data.finalMessage}
@@ -432,14 +348,13 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
                   Forever yours,
                 </p>
                 <motion.p 
-                  animate={{ scale: [1, 1.05, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
+                  animate={{ scale: [1, 1.03, 1] }}
+                  transition={{ duration: 3, repeat: Infinity }}
                   className="text-3xl md:text-4xl font-handwriting text-pink-600 transform -rotate-3"
                 >
                   {data.basicInfo.fromName} 💕
                 </motion.p>
 
-                {/* Signature underline */}
                 <svg
                   className="w-full mt-2"
                   height="8"
@@ -460,44 +375,41 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
               </div>
             </motion.div>
 
-            {/* Corner decorations */}
-            <div className="absolute top-6 left-6 text-3xl opacity-50">🌸</div>
-            <div className="absolute top-6 right-6 text-3xl opacity-50">🌸</div>
-            <div className="absolute bottom-6 left-6 text-3xl opacity-50">🌺</div>
-            <div className="absolute bottom-6 right-6 text-3xl opacity-50">🌺</div>
+            {/* Subtle corner decorations */}
+            <div className="absolute top-6 left-6 text-2xl opacity-30">🌸</div>
+            <div className="absolute bottom-6 right-6 text-2xl opacity-30">🌸</div>
 
-            {/* Confetti */}
+            {/* Subtle Confetti — light */}
             <Confetti theme="romance" intensity="light" />
           </div>
 
-          {/* Scattered hearts around */}
-          {[...Array(8)].map((_, i) => (
+          {/* Reduced scattered hearts — 4 instead of 8 */}
+          {[...Array(4)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute text-4xl pointer-events-none"
+              className="absolute text-2xl pointer-events-none"
               style={{
-                top: `${15 + (i * 12)}%`,
-                left: i % 2 === 0 ? "-8%" : "auto",
-                right: i % 2 === 1 ? "-8%" : "auto",
+                top: `${20 + (i * 20)}%`,
+                left: i % 2 === 0 ? "-6%" : "auto",
+                right: i % 2 === 1 ? "-6%" : "auto",
               }}
               animate={{
-                y: [0, -25, 0],
-                rotate: [0, 360],
-                opacity: [0.4, 0.7, 0.4],
+                y: [0, -15, 0],
+                opacity: [0.3, 0.5, 0.3],
               }}
               transition={{
-                duration: 4 + i,
+                duration: 5 + i,
                 repeat: Infinity,
-                delay: i * 0.4,
+                delay: i * 0.5,
               }}
             >
-              {["💕", "💖", "💗", "✨"][i % 4]}
+              {["💕", "💖"][i % 2]}
             </motion.div>
           ))}
         </motion.div>
 
-        {/* Flying hearts */}
-        <FlyingHearts count={12} />
+        {/* Reduced flying hearts */}
+        <FlyingHearts count={5} />
       </section>
 
       {/* Bottom spacing */}
@@ -506,38 +418,33 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
   );
 }
 
-// Story Card Component
+// Story Card Component — simplified
 function StoryCard({ story, delay }: { story: string; delay: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30, rotate: -2 }}
-      whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ delay, duration: 0.6 }}
       className="break-inside-avoid mb-6"
     >
       <motion.div
         whileHover={{
-          scale: 1.03,
-          rotate: 0,
+          scale: 1.02,
           zIndex: 10,
         }}
         transition={{ type: "spring", stiffness: 300 }}
-        className="relative bg-white p-6 md:p-8 rounded-2xl shadow-xl transform rotate-1 cursor-pointer group"
+        className="relative bg-white p-6 md:p-8 rounded-2xl shadow-lg cursor-pointer group"
       >
         {/* Decorative tape */}
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-7 bg-yellow-200/70 transform -rotate-12 shadow-sm" />
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-20 h-6 bg-yellow-200/60 transform -rotate-6 shadow-sm" />
 
         {/* Content */}
         <div className="relative">
           <div className="flex items-center gap-3 mb-5">
-            <motion.div
-              animate={{ rotate: [0, 10, -10, 0] }}
-              transition={{ duration: 4, repeat: Infinity }}
-              className="w-14 h-14 bg-gradient-to-br from-pink-400 to-rose-500 rounded-full flex items-center justify-center shadow-lg"
-            >
-              <Heart className="w-7 h-7 text-white fill-white" />
-            </motion.div>
+            <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-rose-500 rounded-full flex items-center justify-center shadow-md">
+              <Heart className="w-6 h-6 text-white fill-white" />
+            </div>
             <div>
               <h3 className="text-2xl font-handwriting text-gray-800">
                 Our Story
@@ -552,7 +459,7 @@ function StoryCard({ story, delay }: { story: string; delay: number }) {
         </div>
 
         {/* Hover glow effect */}
-        <div className="absolute inset-0 bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl opacity-0 group-hover:opacity-30 transition-opacity duration-300" />
+        <div className="absolute inset-0 bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
       </motion.div>
     </motion.div>
   );
