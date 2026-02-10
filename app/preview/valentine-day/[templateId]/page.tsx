@@ -339,8 +339,7 @@ export default function PreviewPage() {
 
               <motion.button
                 onClick={() => {
-                  // TODO: Navigate to payment
-                  alert("Payment step coming soon!");
+                  router.push("/payment");
                 }}
                 className="flex items-center gap-1 sm:gap-2 px-4 sm:px-6 py-2 
                   bg-gradient-to-r from-pink-500 to-rose-500 

@@ -20,11 +20,12 @@ function TimeLine({ data }: Props) {
       {/* Timeline Container */}
       <div className="relative max-w-4xl mx-auto px-4 sm:px-6 pb-20">
         {/* Vertical timeline line with gradient */}
-        <div className="absolute left-1/2 top-0 bottom-0 w-1 hidden md:block z-0">
+        <div className="absolute left-1/2 top-0 bottom-0 w-1 hidden md:block z-0 overflow-hidden rounded-full">
           <div className="w-full h-full bg-gradient-to-b from-pink-200 via-rose-300 to-pink-200 -translate-x-1/2" />
           {/* Animated glow overlay */}
           <motion.div
-            className="absolute inset-0 w-full bg-gradient-to-b from-transparent via-pink-400/50 to-transparent -translate-x-1/2"
+            className="absolute inset-0 w-full bg-gradient-to-b from-transparent via-pink-400/50 to-transparent"
+            style={{ x: "-50%" }}
             animate={{ y: ["-100%", "100%"] }}
             transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
           />

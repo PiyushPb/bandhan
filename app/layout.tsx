@@ -31,6 +31,8 @@ export const metadata: Metadata = {
   description: "Your app description",
 };
 
+import { Toaster } from "react-hot-toast";
+
 export default function RootLayout({
   children,
 }: {
@@ -58,7 +60,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <main className="min-h-screen">{children}</main>
+        <Toaster position="top-center" />
+      </body>
     </html>
   );
 }

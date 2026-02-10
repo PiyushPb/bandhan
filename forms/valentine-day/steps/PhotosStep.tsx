@@ -1,8 +1,8 @@
-"use client";
-
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { PhotoUpload, PhotoItem } from "@/components/forms";
-import { Camera, Sparkles } from "lucide-react";
+import { Camera, Sparkles, Loader2 } from "lucide-react";
+import imageCompression from "browser-image-compression";
 
 interface PhotosStepProps {
   photos: { url: string; caption?: string }[];
@@ -15,11 +15,98 @@ export default function PhotosStep({
   error,
   onUpdate,
 }: PhotosStepProps) {
+  const [uploading, setUploading] = useState(false);
+
   // Convert to PhotoItem format
   const photoItems: PhotoItem[] = photos.map((p) => ({
     url: p.url,
     caption: p.caption,
   }));
+
+  const uploadFile = async (file: File): Promise<string> => {
+    // Compress image if it's larger than 1MB
+    let fileToUpload = file;
+    
+    // Only compress if image is > 1MB
+    if (file.size > 1024 * 1024) {
+        try {
+            const options = {
+                maxSizeMB: 1,
+                maxWidthOrHeight: 1920,
+                useWebWorker: true,
+                fileType: file.type // Ensure original file type is preserved if possible
+            };
+            
+            console.log(`Compressing ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)...`);
+            const compressedFile = await imageCompression(file, options);
+            console.log(`Compressed to ${(compressedFile.size / 1024 / 1024).toFixed(2)} MB`);
+            
+            fileToUpload = compressedFile;
+        } catch (error) {
+            console.error("Compression failed:", error);
+            // Fallback to original file if compression fails
+        }
+    }
+
+    const formData = new FormData();
+    formData.append("file", fileToUpload);
+
+    const response = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+        throw new Error("Upload failed");
+    }
+
+    const data = await response.json();
+    return data.secure_url;
+  };
+
+  const handlePhotosChange = async (newPhotos: PhotoItem[]) => {
+    // Check if there are any new files to upload
+    const photosToUpload = newPhotos.filter((p) => p.file);
+    
+    // If no new files, just update immediately
+    if (photosToUpload.length === 0) {
+        onUpdate(newPhotos);
+        return;
+    }
+
+    setUploading(true);
+    
+    try {
+        // Create a copy of photos to update progressively or at end
+        const updatedPhotos = [...newPhotos];
+
+        // Process uploads
+        await Promise.all(
+            updatedPhotos.map(async (photo, index) => {
+                if (photo.file) {
+                    try {
+                        const secureUrl = await uploadFile(photo.file);
+                        // Update the photo object with the new URL and remove file
+                        updatedPhotos[index] = {
+                            ...photo,
+                            url: secureUrl,
+                            file: undefined // Mark as uploaded by removing file
+                        };
+                    } catch (err) {
+                        console.error("Failed to upload photo:", err);
+                        // Optional: Handle error state for specific photo
+                    }
+                }
+            })
+        );
+
+        onUpdate(updatedPhotos);
+    } catch (err) {
+        console.error("Error updating photos:", err);
+    } finally {
+        setUploading(false);
+    }
+  };
 
   return (
     <motion.div
@@ -36,7 +123,11 @@ export default function PhotosStep({
           transition={{ delay: 0.2, type: "spring" }}
           className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-pink-100 to-rose-100 rounded-full mb-4"
         >
-          <Camera className="w-8 h-8 text-pink-500" />
+          {uploading ? (
+            <Loader2 className="w-8 h-8 text-pink-500 animate-spin" />
+          ) : (
+             <Camera className="w-8 h-8 text-pink-500" />
+          )}
         </motion.div>
         <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
           Your memories together
@@ -47,13 +138,21 @@ export default function PhotosStep({
       </div>
 
       {/* Photo upload */}
-      <PhotoUpload
-        label="Photos"
-        photos={photoItems}
-        onChange={onUpdate}
-        maxPhotos={6}
-        error={error}
-      />
+      <div className={uploading ? "opacity-70 pointer-events-none" : ""}>
+        <PhotoUpload
+            label="Photos"
+            photos={photoItems}
+            onChange={handlePhotosChange}
+            maxPhotos={6}
+            error={error}
+            maxCaptionLength={500}
+        />
+        {uploading && (
+            <p className="text-center text-sm text-pink-500 mt-2 font-medium animate-pulse">
+                Uploading your memories to the cloud...
+            </p>
+        )}
+      </div>
 
       {/* Tips */}
       <div className="space-y-3">

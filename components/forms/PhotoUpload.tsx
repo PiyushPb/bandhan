@@ -17,6 +17,7 @@ interface PhotoUploadProps {
   onChange: (photos: PhotoItem[]) => void;
   maxPhotos?: number;
   error?: string;
+  maxCaptionLength?: number;
 }
 
 export default function PhotoUpload({
@@ -25,6 +26,7 @@ export default function PhotoUpload({
   onChange,
   maxPhotos = 6,
   error,
+  maxCaptionLength,
 }: PhotoUploadProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [editingCaption, setEditingCaption] = useState<number | null>(null);
@@ -185,8 +187,7 @@ export default function PhotoUpload({
                   </div>
                 </div>
 
-                {/* Caption input */}
-                <div className="mt-2">
+                <div className="mt-2 relative">
                   <input
                     type="text"
                     value={photo.caption || ""}
@@ -194,8 +195,9 @@ export default function PhotoUpload({
                     onFocus={() => setEditingCaption(index)}
                     onBlur={() => setEditingCaption(null)}
                     placeholder="Add a caption..."
+                    maxLength={maxCaptionLength}
                     className={`
-                      w-full px-3 py-2 text-sm rounded-lg border-2 
+                      w-full px-3 py-2 text-sm rounded-lg border-2 pr-12
                       bg-white/80 backdrop-blur-sm transition-all duration-200
                       placeholder:text-gray-400 focus:outline-none
                       ${
@@ -205,6 +207,14 @@ export default function PhotoUpload({
                       }
                     `}
                   />
+                  {maxCaptionLength && editingCaption === index && (
+                      <span className={`
+                          absolute right-2 top-1/2 -translate-y-1/2 text-[10px] 
+                          ${(photo.caption?.length || 0) >= maxCaptionLength ? "text-red-500" : "text-gray-400"}
+                      `}>
+                          {(photo.caption?.length || 0)}/{maxCaptionLength}
+                      </span>
+                  )}
                 </div>
               </motion.div>
             ))}

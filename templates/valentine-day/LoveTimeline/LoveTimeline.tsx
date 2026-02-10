@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import Hero from "./sections/Hero";
 import { TemplateData } from "@/types/template";
 import { useScroll, useMotionValue } from "framer-motion";
+import ParticleBackground from "@/components/ui/ParticleBackground";
 
 const TimeLine = dynamic(() => import("./sections/TimeLine"), {
   ssr: false,
@@ -39,7 +40,15 @@ function LoveTimeline({ data }: LoveTimelineProps) {
   }, [scrollYProgress, heroOpacity, heroScale]);
 
   return (
-    <section className="min-h-screen bg-linear-to-br from-pink-50 via-rose-50 to-red-50">
+    <section className="min-h-[calc(100vh-4rem)] bg-linear-to-br from-pink-50 via-rose-50 to-red-50 relative">
+      <div className="absolute inset-0 z-0">
+        <ParticleBackground
+          particleCount={15}
+          shapes={["heart", "sparkle"]}
+          colorTheme="romantic"
+          blur={true}
+        />
+      </div>
       <Hero data={data} heroOpacity={heroOpacity} heroScale={heroScale} />
       <TimeLine data={data} />
     </section>

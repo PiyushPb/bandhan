@@ -69,6 +69,7 @@ export default function ReasonsStep({
         placeholder="I love how you..."
         minItems={3}
         maxItems={10}
+        maxLength={500}
         error={error}
         itemLabel="Reason"
       />

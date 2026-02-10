@@ -13,6 +13,7 @@ interface DynamicListProps {
   maxItems?: number;
   error?: string;
   itemLabel?: string;
+  maxLength?: number;
 }
 
 export default function DynamicList({
@@ -24,6 +25,7 @@ export default function DynamicList({
   maxItems = 10,
   error,
   itemLabel = "Item",
+  maxLength,
 }: DynamicListProps) {
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
 
@@ -91,16 +93,29 @@ export default function DynamicList({
                   {index + 1}
                 </div>
 
-                {/* Input */}
-                <input
-                  type="text"
-                  value={item}
-                  onChange={(e) => updateItem(index, e.target.value)}
-                  onFocus={() => setFocusedIndex(index)}
-                  onBlur={() => setFocusedIndex(null)}
-                  placeholder={`${placeholder}`}
-                  className="flex-1 px-3 py-2 bg-transparent focus:outline-none placeholder:text-gray-400"
-                />
+
+                <div className="flex-1 relative">
+                  <input
+                    type="text"
+                    value={item}
+                    onChange={(e) => updateItem(index, e.target.value)}
+                    onFocus={() => setFocusedIndex(index)}
+                    onBlur={() => setFocusedIndex(null)}
+                    placeholder={`${placeholder}`}
+                    maxLength={maxLength}
+                    className="w-full px-3 py-2 bg-transparent focus:outline-none placeholder:text-gray-400"
+                  />
+                  {maxLength && focusedIndex === index && (
+                    <span 
+                      className={`
+                        absolute right-2 top-1/2 -translate-y-1/2 text-[10px] 
+                        ${item.length >= maxLength ? "text-red-500" : "text-gray-400"}
+                      `}
+                    >
+                      {item.length}/{maxLength}
+                    </span>
+                  )}
+                </div>
 
                 {/* Delete button */}
                 <motion.button

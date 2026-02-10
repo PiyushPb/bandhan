@@ -58,14 +58,6 @@ function Hero({ data, heroOpacity, heroScale }: Props) {
       style={{ opacity: heroOpacity, scale: heroScale }}
       className="min-h-screen flex items-center justify-center px-6 sticky top-0 relative overflow-hidden"
     >
-      {/* Subtle Particle Background — reduced count */}
-      <ParticleBackground
-        particleCount={15}
-        shapes={["heart", "sparkle"]}
-        colorTheme="romantic"
-        blur={true}
-      />
-
       {/* Soft gradient blobs — simplified to 2 */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div

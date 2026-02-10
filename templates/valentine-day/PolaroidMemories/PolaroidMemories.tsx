@@ -32,16 +32,14 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
   const headerOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
   // Combine photos and reasons into items for masonry grid with stable order
-  type MasonryItem = 
+  type MasonryItem =
     | { type: "story"; content: string }
     | { type: "photo"; content: TemplateData["photos"][0]; index: number }
     | { type: "reason"; content: string; index: number };
 
   const masonryItems = useMemo<MasonryItem[]>(() => {
-    const items: MasonryItem[] = [
-      { type: "story", content: data.story },
-    ];
-    
+    const items: MasonryItem[] = [{ type: "story", content: data.story }];
+
     const maxLength = Math.max(data.photos.length, data.reasons.length);
     for (let i = 0; i < maxLength; i++) {
       if (i < data.photos.length) {
@@ -59,7 +57,7 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
         });
       }
     }
-    
+
     return items;
   }, [data.photos, data.reasons, data.story]);
 
@@ -87,24 +85,22 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
       {/* Hero Section */}
       <motion.section
         style={{ y: headerY, opacity: headerOpacity }}
-        className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-20"
+        className="relative min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-10"
       >
         {/* Handwritten title with clean styling */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
-          className="text-center mb-12 relative"
+          className="text-center mb-12 relative m-10"
         >
           {/* Single paper background */}
-          <motion.div 
-            className="absolute inset-0 -m-10 bg-white/60 backdrop-blur-sm rounded-3xl shadow-2xl" 
-          />
+          <motion.div className="absolute inset-0 -m-10 bg-white/60 backdrop-blur-sm rounded-3xl shadow-2xl" />
 
           <div className="relative z-10 p-10">
             {/* Names with handwriting font */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 mb-6">
-              <motion.span 
+              <motion.span
                 initial={{ x: -50, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 0.3, duration: 0.8 }}
@@ -119,7 +115,7 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
               >
                 ❤️
               </motion.span>
-              <motion.span 
+              <motion.span
                 initial={{ x: 50, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 0.5, duration: 0.8 }}
@@ -302,8 +298,8 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
               🎁 A Special Surprise 🎁
             </h2>
           </motion.div>
-          <ScratchReveal 
-            letter={data.secretLetter} 
+          <ScratchReveal
+            letter={data.secretLetter}
             toName={data.basicInfo.toName}
             fromName={data.basicInfo.fromName}
           />
@@ -320,9 +316,7 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
           className="relative"
         >
           {/* Single paper effect */}
-          <motion.div 
-            className="absolute inset-0 bg-white rounded-3xl transform rotate-1 shadow-xl" 
-          />
+          <motion.div className="absolute inset-0 bg-white rounded-3xl transform rotate-1 shadow-xl" />
 
           {/* Main card */}
           <div className="relative bg-gradient-to-br from-white via-pink-50 to-rose-50 rounded-3xl p-8 md:p-12 lg:p-16 border-2 border-white shadow-2xl overflow-hidden">
@@ -347,7 +341,7 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
                 <p className="text-xl md:text-2xl font-handwriting text-gray-600 mb-2">
                   Forever yours,
                 </p>
-                <motion.p 
+                <motion.p
                   animate={{ scale: [1, 1.03, 1] }}
                   transition={{ duration: 3, repeat: Infinity }}
                   className="text-3xl md:text-4xl font-handwriting text-pink-600 transform -rotate-3"
@@ -377,7 +371,9 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
 
             {/* Subtle corner decorations */}
             <div className="absolute top-6 left-6 text-2xl opacity-30">🌸</div>
-            <div className="absolute bottom-6 right-6 text-2xl opacity-30">🌸</div>
+            <div className="absolute bottom-6 right-6 text-2xl opacity-30">
+              🌸
+            </div>
 
             {/* Subtle Confetti — light */}
             <Confetti theme="romance" intensity="light" />
@@ -389,7 +385,7 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
               key={i}
               className="absolute text-2xl pointer-events-none"
               style={{
-                top: `${20 + (i * 20)}%`,
+                top: `${20 + i * 20}%`,
                 left: i % 2 === 0 ? "-6%" : "auto",
                 right: i % 2 === 1 ? "-6%" : "auto",
               }}
@@ -449,7 +445,9 @@ function StoryCard({ story, delay }: { story: string; delay: number }) {
               <h3 className="text-2xl font-handwriting text-gray-800">
                 Our Story
               </h3>
-              <p className="text-sm text-pink-500 font-handwriting">How it all began...</p>
+              <p className="text-sm text-pink-500 font-handwriting">
+                How it all began...
+              </p>
             </div>
           </div>
 

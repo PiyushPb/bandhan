@@ -25,7 +25,7 @@ export default function Home() {
   return (
     <main className="bg-white antialiased">
       {/* Navigation */}
-      <motion.nav
+      {/* <motion.nav
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
@@ -55,7 +55,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </motion.nav>
+      </motion.nav> */}
 
       {/* Hero Section with Video Background */}
       <section className="relative h-screen min-h-[600px] overflow-hidden flex items-center justify-center">
@@ -514,7 +514,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-neutral-100 bg-neutral-50">
+      {/* <footer className="border-t border-neutral-100 bg-neutral-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20">
           <div className="grid grid-cols-2 md:grid-cols-12 gap-8 md:gap-12 mb-12 md:mb-16">
             <div className="col-span-2 md:col-span-4">
@@ -710,7 +710,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </footer>
+      </footer> */}
     </main>
   );
 }
