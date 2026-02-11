@@ -1,17 +1,58 @@
-/* globals.css */
 @import "tailwindcss";
 
-/* Default ✔️ Google Sans as default */
-html,
+@theme {
+  --font-cal:
+    "Playfair Display", ui-serif, Georgia, serif; /* stands in for Cal Sans */
+  --font-sans: "Urbanist", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "DM Sans", "Urbanist", ui-sans-serif, system-ui, sans-serif;
+  --font-handwriting: "Caveat", "Kalam", cursive;
+
+  /* Warm rose palette */
+  --color-rose-25: #fff5f6;
+  --color-rose-50: #fff1f2;
+  --color-rose-100: #ffe4e6;
+  --color-rose-200: #fecdd3;
+  --color-rose-300: #fda4af;
+  --color-rose-400: #fb7185;
+  --color-rose-500: #f43f5e;
+  --color-rose-600: #e11d48;
+  --color-rose-700: #be123c;
+  --color-rose-800: #9f1239;
+  --color-rose-900: #881337;
+  --color-rose-950: #4c0519;
+
+  --color-warm-50: #fdf8f6;
+  --color-warm-100: #f9ece6;
+  --color-warm-200: #f3d5c8;
+  --color-warm-800: #44271b;
+  --color-warm-900: #2c1810;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 body {
-  font-family: var(--font-google-sans), system-ui, sans-serif;
+  font-family: var(--font-sans);
 }
 
-/* Utility classes */
-.font-cal {
-  font-family: var(--font-cal-sans), system-ui, sans-serif;
+::selection {
+  background-color: #fecdd3;
+  color: #881337;
 }
 
-.font-urbanist {
-  font-family: var(--font-urbanist), system-ui, sans-serif;
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #e5e5e5;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #d4d4d4;
 }
