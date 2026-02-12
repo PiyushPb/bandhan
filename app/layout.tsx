@@ -1,4 +1,6 @@
+/* eslint-disable @next/next/no-page-custom-font */
 import type { Metadata } from "next";
+import Script from "next/script"; // Add this import
 import {
   Cal_Sans,
   Google_Sans,
@@ -78,7 +80,7 @@ export const metadata: Metadata = {
     siteName: "Bandhan",
     images: [
       {
-        url: "/og-image.png", // Make sure to add this image (1200x630px recommended)
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "Bandhan - Connect and Celebrate",
@@ -93,7 +95,7 @@ export const metadata: Metadata = {
     description:
       "Bandhan helps you connect with loved ones and strengthen bonds that matter.",
     images: ["/og-image.png"],
-    creator: "@bandhan", // Replace with your Twitter handle
+    creator: "@bandhan",
   },
   robots: {
     index: true,
@@ -130,9 +132,7 @@ export const metadata: Metadata = {
     title: "Bandhan",
   },
   verification: {
-    google: "your-google-verification-code", // Add your Google Search Console verification
-    // yandex: 'verification-code',
-    // yahoo: 'verification-code',
+    google: "your-google-verification-code",
   },
   category: "social",
 };
@@ -170,6 +170,20 @@ export default function RootLayout({
         />
       </head>
       <body>
+        {/* Google Analytics - Properly integrated with Next.js Script component */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-2ETV2KZPGV"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-2ETV2KZPGV');
+          `}
+        </Script>
+
         <main className="min-h-screen">{children}</main>
         <Toaster position="top-center" />
       </body>
