@@ -248,10 +248,10 @@ function OurSolution() {
               memories, and 5 minutes.
             </p>
             <p>
-              When someone opens your Bandhan, they don't just read a message —
-              they experience it. They scroll through shared photos. They read
-              words meant only for them. They hear songs tied to memories. They
-              feel something.
+              When someone opens your Bandhan, they don&apos;t just read a
+              message they experience it. They scroll through shared photos.
+              They read words meant only for them. They hear songs tied to
+              memories. They feel something.
             </p>
             <p className="text-warm-800 font-medium">
               That feeling is what we create.
@@ -359,9 +359,9 @@ function Mission() {
         </h2>
 
         <p className="text-lg md:text-xl text-warm-600 leading-relaxed max-w-2xl mx-auto">
-          Whether it's a wedding, a birthday, an anniversary, or just a
-          "thinking of you" moment — we believe your feelings deserve to be more
-          than a notification. They deserve to be an experience.
+          Whether it&apos;s a wedding, a birthday, an anniversary, or just a
+          &quot;thinking of you&quot; moment, we believe your feelings deserve
+          to be more than a notification. They deserve to be an experience.
         </p>
       </motion.div>
     </SectionWrapper>
@@ -403,18 +403,20 @@ function WhoWeAre() {
             className="space-y-4 text-warm-600 leading-relaxed"
           >
             <p>
-              We're a small, passionate team of designers, developers, and
+              We&apos;re a small, passionate team of designers, developers, and
               romantics who believe the internet can be a more personal place.
             </p>
             <p>
-              We've all been there — wanting to say something meaningful but not
-              having the right way to say it. That's why we built Bandhan.
+              We&apos;ve all been there wanting to say something meaningful
+              but not having the right way to say it. That&apos;s why we built
+              Bandhan.
             </p>
             <p>
               Every template, every feature, every pixel is designed with one
               question in mind:{" "}
               <span className="text-warm-800 font-medium">
-                "Will this help someone express something they couldn't before?"
+                &quot;Will this help someone express something they couldn&apos;t
+                before?&quot;
               </span>
             </p>
           </motion.div>

@@ -2,7 +2,37 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Heart, Instagram, Twitter, MessageCircle } from "lucide-react";
+import {
+  Heart,
+  Instagram,
+  Twitter,
+  MessageCircle,
+  LucideIcon,
+} from "lucide-react";
+
+const FOOTER_LINKS = {
+  product: {
+    title: "Product",
+    links: [
+      { href: "#/pricing", label: "Pricing" },
+      { href: "/occasion/valentine-day", label: "Valentine Day" },
+    ],
+  },
+  company: {
+    title: "Company",
+    links: [
+      { href: "/about", label: "About Us" },
+      // { href: "/blog", label: "Blog" },
+      { href: "/contact", label: "Contact" },
+    ],
+  },
+};
+
+const SOCIAL_LINKS: { href: string; icon: LucideIcon; label: string }[] = [
+  { href: "#", icon: Instagram, label: "Instagram" },
+  { href: "#", icon: Twitter, label: "Twitter" },
+  { href: "#", icon: MessageCircle, label: "MessageCircle" },
+];
 
 export default function Footer() {
   const pathname = usePathname();
@@ -19,50 +49,55 @@ export default function Footer() {
           {/* Brand */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2">
-               <div className="w-8 h-8 bg-gradient-to-br from-pink-500 to-rose-600 rounded-lg flex items-center justify-center">
-                  <Heart className="w-4 h-4 text-white fill-white" />
-                </div>
-                <span className="font-bold text-xl text-gray-900">Bandhan</span>
+              <div className="w-8 h-8 bg-gradient-to-br from-pink-500 to-rose-600 rounded-lg flex items-center justify-center">
+                <Heart className="w-4 h-4 text-white fill-white" />
+              </div>
+              <span className="font-bold text-xl text-gray-900">Bandhan</span>
             </Link>
             <p className="text-gray-500 text-sm leading-relaxed">
-              Create beautiful, interactive digital memories for your loved ones. 
-              The perfect way to express your feelings.
+              Create beautiful, interactive digital memories for your loved
+              ones. The perfect way to express your feelings.
             </p>
           </div>
 
-          {/* Product */}
-          <div>
-            <h3 className="font-semibold text-gray-900 mb-4">Product</h3>
-            <ul className="space-y-3">
-              <li><Link href="/#templates" className="text-gray-500 hover:text-pink-600 text-sm transition-colors">Templates</Link></li>
-              <li><Link href="/pricing" className="text-gray-500 hover:text-pink-600 text-sm transition-colors">Pricing</Link></li>
-              <li><Link href="/showcase" className="text-gray-500 hover:text-pink-600 text-sm transition-colors">Showcase</Link></li>
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h3 className="font-semibold text-gray-900 mb-4">Company</h3>
-            <ul className="space-y-3">
-              <li><Link href="/about" className="text-gray-500 hover:text-pink-600 text-sm transition-colors">About Us</Link></li>
-              <li><Link href="/blog" className="text-gray-500 hover:text-pink-600 text-sm transition-colors">Blog</Link></li>
-              <li><Link href="/contact" className="text-gray-500 hover:text-pink-600 text-sm transition-colors">Contact</Link></li>
-            </ul>
-          </div>
+          {/* Link Sections */}
+          {Object.values(FOOTER_LINKS).map((section) => (
+            <div key={section.title}>
+              <h3 className="font-semibold text-gray-900 mb-4">
+                {section.title}
+              </h3>
+              <ul className="space-y-3">
+                {section.links.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="text-gray-500 hover:text-pink-600 text-sm transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
 
           {/* Social */}
           <div>
             <h3 className="font-semibold text-gray-900 mb-4">Connect</h3>
             <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 rounded-full bg-pink-50 flex items-center justify-center text-pink-600 hover:bg-pink-100 transition-colors">
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-pink-50 flex items-center justify-center text-pink-600 hover:bg-pink-100 transition-colors">
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-pink-50 flex items-center justify-center text-pink-600 hover:bg-pink-100 transition-colors">
-                <MessageCircle className="w-5 h-5" />
-              </a>
+              {SOCIAL_LINKS.map((social) => {
+                const Icon = social.icon;
+                return (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    className="w-10 h-10 rounded-full bg-pink-50 flex items-center justify-center text-pink-600 hover:bg-pink-100 transition-colors"
+                    aria-label={social.label}
+                  >
+                    <Icon className="w-5 h-5" />
+                  </a>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -72,7 +107,8 @@ export default function Footer() {
             © {new Date().getFullYear()} Bandhan. All rights reserved.
           </p>
           <p className="text-gray-400 text-sm flex items-center gap-1">
-            Made with <Heart className="w-3 h-3 text-red-500 fill-red-500" /> in India
+            Made with <Heart className="w-3 h-3 text-red-500 fill-red-500" /> in
+            India
           </p>
         </div>
       </div>

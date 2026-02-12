@@ -48,5 +48,14 @@ export async function updateSession(request: NextRequest) {
       }
   }
 
+  // Redirect authenticated users away from login and signup pages
+  if (['/login', '/signup'].includes(request.nextUrl.pathname)) {
+    if (user) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/dashboard'
+      return NextResponse.redirect(url)
+    }
+  }
+
   return response
 }

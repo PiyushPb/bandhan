@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
@@ -32,7 +31,7 @@ function LoginForm() {
       setLoading(false);
     } else {
       toast.success("Welcome back!");
-      router.push(next || "/create"); // Redirect to next or create page
+      router.push(next || "/occasions"); // Redirect to next or create page
       router.refresh();
     }
   };
@@ -49,7 +48,9 @@ function LoginForm() {
           <div className="w-16 h-16 bg-gradient-to-br from-pink-500 to-rose-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg transform rotate-3">
             <Heart className="w-8 h-8 text-white fill-white" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Welcome Back</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            Welcome Back
+          </h1>
           <p className="text-gray-500">Sign in to continue creating memories</p>
         </div>
 

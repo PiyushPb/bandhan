@@ -5,26 +5,43 @@ import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { User, LogOut, LayoutDashboard, Menu, X, Heart } from "lucide-react";
+import {
+  User as UserIcon,
+  LogOut,
+  LayoutDashboard,
+  Menu,
+  X,
+  Heart,
+} from "lucide-react";
 import { toast } from "react-hot-toast";
+import type { User } from "@supabase/supabase-js";
+
+const NAVBAR_LINKS = [
+  { href: "/occasions", label: "Occasions" },
+  { href: "/#experience", label: "Experience" },
+];
 
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const supabase = createClient();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // Check auth state
   useEffect(() => {
     const checkUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       setUser(user);
     };
     checkUser();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
     });
 
@@ -59,26 +76,23 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
-            <Link 
-              href="/#templates" 
-              className="text-gray-600 hover:text-pink-600 font-medium transition-colors"
-            >
-              Templates
-            </Link>
-            <Link 
-              href="/#features" 
-              className="text-gray-600 hover:text-pink-600 font-medium transition-colors"
-            >
-              Features
-            </Link>
-            
+            {NAVBAR_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-gray-600 hover:text-pink-600 font-medium transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+
             {user ? (
               <div className="relative">
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   className="flex items-center gap-2 px-4 py-2 rounded-full bg-pink-50 text-pink-700 hover:bg-pink-100 transition-colors"
                 >
-                  <User className="w-4 h-4" />
+                  <UserIcon className="w-4 h-4" />
                   <span className="font-medium text-sm">Account</span>
                 </button>
 
@@ -138,7 +152,11 @@ export default function Navbar() {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="md:hidden p-2 text-gray-600 hover:text-pink-600 transition-colors"
           >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isMenuOpen ? (
+              <X className="w-6 h-6" />
+            ) : (
+              <Menu className="w-6 h-6" />
+            )}
           </button>
         </div>
       </div>
@@ -153,21 +171,17 @@ export default function Navbar() {
             className="md:hidden bg-white border-t border-gray-100 overflow-hidden"
           >
             <div className="px-4 py-6 space-y-4">
-              <Link
-                href="/#templates"
-                className="block text-gray-600 hover:text-pink-600 font-medium"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Templates
-              </Link>
-              <Link
-                href="/#features"
-                className="block text-gray-600 hover:text-pink-600 font-medium"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Features
-              </Link>
-              
+              {NAVBAR_LINKS.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="block text-gray-600 hover:text-pink-600 font-medium"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ))}
+
               {user ? (
                 <>
                   <Link

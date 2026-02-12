@@ -2,10 +2,9 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type { ReactNode } from "react";
-
-// ─── In your Next.js project, uncomment this for router navigation: ───
-// import { useRouter } from "next/navigation";
 
 /* ==========================================================================
    ANIMATION CONFIG
@@ -359,10 +358,10 @@ function CheckIcon({ className = "" }: { className?: string }) {
    ========================================================================== */
 
 function Hero() {
-  // const router = useRouter(); // ← uncomment in Next.js
+  const router = useRouter();
 
   return (
-    <section className="relative flex min-h-[100dvh] items-center justify-center overflow-hidden">
+    <section className="relative flex min-h-dvh items-center justify-center overflow-hidden">
       {/* Background image */}
       <div className="absolute inset-0">
         <img
@@ -423,7 +422,7 @@ function Hero() {
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              // onClick={() => router.push("/occasions")} // ← uncomment in Next.js
+              onClick={() => router.push("/occasions")} // ← uncomment in Next.js
               className="w-full rounded-full bg-white px-8 py-4 text-base font-semibold text-rose-900 shadow-2xl shadow-rose-950/30 transition-all duration-300 hover:bg-rose-50 sm:w-auto"
             >
               Create yours ₹99
@@ -548,7 +547,7 @@ function WhatSection() {
             className="absolute -bottom-4 -right-4 max-w-[220px] rounded-2xl border border-neutral-100 bg-white p-5 shadow-xl sm:-right-6 sm:bottom-8"
           >
             <p className="mb-2 font-handwriting text-lg leading-snug text-neutral-700">
-              &ldquo;This made me cry happy tears 🥹&rdquo;
+              &ldquo;This made me cry happy tears 😭&rdquo;
             </p>
             <p className="text-xs text-neutral-400"> A real reaction</p>
           </motion.div>
@@ -1051,14 +1050,15 @@ function FinalCTA() {
           </p>
 
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <motion.a
-              href="#pricing"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              className="w-full rounded-full bg-white px-9 py-4 text-base font-semibold text-rose-800 shadow-2xl shadow-rose-950/30 transition-all duration-300 hover:bg-rose-50 sm:w-auto"
-            >
-              Create your Bandhan ₹99
-            </motion.a>
+            <Link href={"/occasions"}>
+              <motion.div
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                className="w-full rounded-full bg-white px-9 py-4 text-base font-semibold text-rose-800 shadow-2xl shadow-rose-950/30 transition-all duration-300 hover:bg-rose-50 sm:w-auto"
+              >
+                Create your Bandhan ₹99
+              </motion.div>
+            </Link>
           </div>
 
           <p className="mx-auto mt-8 max-w-md text-sm text-white/35">

@@ -66,6 +66,7 @@ export default function TicTacToeLove({ letter }: Props) {
 
     if (!empty.length) return b;
 
+    // eslint-disable-next-line react-hooks/purity
     const idx = empty[Math.floor(Math.random() * empty.length)];
     const next = [...b];
     next[idx] = "O";
@@ -129,7 +130,9 @@ export default function TicTacToeLove({ letter }: Props) {
 
   return (
     <div className="bg-white rounded-3xl shadow-xl p-6 md:p-8 text-center">
-      <h3 className="text-2xl font-bold mb-1">A Little Game For You 💗</h3>
+      <h3 className="text-2xl font-bold mb-1 mt-10">
+        A Little Game For You 💗
+      </h3>
 
       {!unlocked ? (
         <p className="text-gray-600 mb-2">
