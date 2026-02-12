@@ -5,13 +5,14 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { TemplateData } from "@/types/template";
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useState } from "react";
 import PolaroidCard from "./components/PolaroidCard";
 import ScrapbookElement from "./components/ScrapbookElement";
 import ScratchReveal from "./components/ScratchReveal";
 import ParticleBackground from "@/components/ui/ParticleBackground";
 import LightboxGallery, { useLightbox } from "@/components/ui/LightboxGallery";
 import Confetti, { FlyingHearts } from "@/components/ui/Confetti";
+import PasswordGuesser from "./components/PasswordGuesser";
 import { Heart, Camera } from "lucide-react";
 
 interface PolaroidMemoriesProps {
@@ -25,7 +26,12 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
     offset: ["start start", "end end"],
   });
 
+
+
   const lightbox = useLightbox();
+  const [isLetterUnlocked, setIsLetterUnlocked] = useState(
+    !data.secretLetter?.password
+  );
 
   // Parallax effects
   const headerY = useTransform(scrollYProgress, [0, 0.3], [0, -100]);
@@ -298,11 +304,21 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
               🎁 A Special Surprise 🎁
             </h2>
           </motion.div>
-          <ScratchReveal
-            letter={data.secretLetter}
-            toName={data.basicInfo.toName}
-            fromName={data.basicInfo.fromName}
-          />
+          
+          {!isLetterUnlocked ? (
+            <PasswordGuesser
+              password={data.secretLetter?.password}
+              passwordQuestion={data.secretLetter?.passwordQuestion}
+              hints={data.secretLetter?.hints}
+              onUnlock={() => setIsLetterUnlocked(true)}
+            />
+          ) : (
+            <ScratchReveal
+              letter={data.secretLetter}
+              toName={data.basicInfo.toName}
+              fromName={data.basicInfo.fromName}
+            />
+          )}
         </section>
       )}
 

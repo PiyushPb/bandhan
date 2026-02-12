@@ -50,6 +50,9 @@ export interface TemplateData {
     title: string;
     body: string;
     signature?: string;
+    password?: string;
+    passwordQuestion?: string; // Initial hint/question
+    hints?: string[];
   };
 }
 

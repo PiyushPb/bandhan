@@ -177,13 +177,16 @@ export function useValentineForm({ templateId, autoSave = true }: UseValentineFo
 
   // Update secret letter
   const updateSecretLetter = useCallback(
-    (field: "title" | "body" | "signature", value: string) => {
+    (field: "title" | "body" | "signature" | "password" | "passwordQuestion" | "hints", value: string | string[]) => {
       setFormData((prev) => ({
         ...prev,
         secretLetter: {
           title: prev.secretLetter?.title || "",
           body: prev.secretLetter?.body || "",
           signature: prev.secretLetter?.signature,
+          password: prev.secretLetter?.password,
+          passwordQuestion: prev.secretLetter?.passwordQuestion,
+          hints: prev.secretLetter?.hints || [],
           [field]: value,
         },
       }));
