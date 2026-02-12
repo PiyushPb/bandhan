@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   
   const { data: template } = await supabase
     .from('templates')
-    .select('data')
+    .select('type, data')
     .eq('slug', slug)
     .single();
 
@@ -21,10 +21,42 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
   }
 
-  const { basicInfo } = template.data;
+  // Import locally to avoid circular deps if any, or just at top level
+  // Since we are in an async function, dynamic import or standard import works.
+  // Ideally standard import at top, but for now let's rely on what we have.
+  const { TEMPLATES } = await import('@/data/templates/valentine');
+  
+  const { basicInfo, photos } = template.data;
+  const staticTemplate = TEMPLATES.find(t => t.id === template.type);
+  
+  // Prioritize user photo, then static template thumbnail
+  const previewImage = photos?.[0]?.url || staticTemplate?.thumbnailUrl || '/og-default.jpg';
+  
+  const title = `A Valentine Surprise for ${basicInfo.toName || 'You'} ❤️`;
+  const description = `A special message from ${basicInfo.fromName || 'Someone special'}. Click to open!`;
+
   return {
-    title: `A Valentine Surprise for ${basicInfo.toName}`,
-    description: `From ${basicInfo.fromName}`,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [
+        {
+          url: previewImage,
+          width: 1200,
+          height: 630,
+          alt: 'Valentine Gift Preview',
+        },
+      ],
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [previewImage],
+    },
   };
 }
 
