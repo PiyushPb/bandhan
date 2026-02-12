@@ -41,7 +41,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ 
       success: true, 
       slug: slug,
-      orderId: data.paymentId,
+      orderId: data.paymentId || data.razorpayOrderId,
       message: 'Order created successfully' 
     });
   } catch (error) {

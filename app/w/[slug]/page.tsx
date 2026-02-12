@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   // Prioritize user photo, then static template thumbnail
   const previewImage = photos?.[0]?.url || staticTemplate?.thumbnailUrl || '/og-default.jpg';
   
-  const title = `A Valentine Surprise for ${basicInfo.toName || 'You'} ❤️`;
+  const title = `A Surprise for ${basicInfo.toName || 'You'} ❤️`;
   const description = `A special message from ${basicInfo.fromName || 'Someone special'}. Click to open!`;
 
   return {
