@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { TemplateId } from "@/types/template";
 import { formStorage } from "@/lib/form-storage";
-import { TEMPLATES } from "./data/Template";
+import { TEMPLATES } from "@/data/templates/valentine";
 
 import HeartDroppingBG from "@/components/bg/HeartDroppingBG";
 import PageHeader from "./components/PageHeader";

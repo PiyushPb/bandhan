@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, memo } from "react";
 
 type ParticleShape = "heart" | "circle" | "star" | "sparkle";
 type ColorTheme = "romantic" | "pink" | "gold" | "pastel";
@@ -63,7 +63,7 @@ function getShapeSVG(shape: ParticleShape, color: string): React.ReactNode {
   }
 }
 
-export default function ParticleBackground({
+function ParticleBackground({
   particleCount = 30,
   shapes = ["heart", "circle", "sparkle"],
   colorTheme = "romantic",
@@ -100,7 +100,9 @@ export default function ParticleBackground({
       className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`}
     >
       {particles.map((particle) => {
-        const color = colors[Math.floor(Math.random() * colors.length)];
+        // Generate color deterministically based on particle ID to allow memoization validity
+        // checking against 'colors' array length.
+        const color = colors[particle.id % colors.length];
 
         return (
           <motion.div
@@ -133,3 +135,5 @@ export default function ParticleBackground({
     </div>
   );
 }
+
+export default memo(ParticleBackground);

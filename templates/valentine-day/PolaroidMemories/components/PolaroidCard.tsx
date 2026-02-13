@@ -3,9 +3,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, memo } from "react";
 import { TemplateData } from "@/types/template";
 import { Heart, Star, Sparkles } from "lucide-react";
+import Image from "next/image";
 
 interface PolaroidCardProps {
   type: "photo" | "reason";
@@ -110,7 +111,7 @@ function StampDecoration({ stamp, position, delay }: { stamp: string; position: 
   );
 }
 
-export default function PolaroidCard({
+function PolaroidCard({
   type,
   photo,
   reason,
@@ -190,13 +191,19 @@ export default function PolaroidCard({
 
             {/* Photo */}
             <div className="relative aspect-square overflow-hidden bg-gray-100 shadow-inner">
-              <motion.img
-                src={photo.url}
-                alt={photo.caption || "Memory"}
-                className="w-full h-full object-cover"
+              <motion.div
+                className="w-full h-full relative"
                 animate={{ scale: isHovered ? 1.1 : 1 }}
                 transition={{ duration: 0.5 }}
-              />
+              >
+                <Image
+                  src={photo.url}
+                  alt={photo.caption || "Memory"}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 300px"
+                  className="object-cover"
+                />
+              </motion.div>
 
               {/* Vintage overlay */}
               <div className="absolute inset-0 bg-gradient-to-br from-amber-200/15 via-transparent to-pink-200/15 mix-blend-overlay" />
@@ -438,3 +445,5 @@ export default function PolaroidCard({
 
   return null;
 }
+
+export default memo(PolaroidCard);

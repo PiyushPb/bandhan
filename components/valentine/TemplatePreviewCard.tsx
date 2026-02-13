@@ -34,7 +34,7 @@ export default function TemplatePreviewCard({
         className={`
           relative rounded-2xl overflow-hidden bg-white transition-all duration-300
           ${isSoldOut
-            ? "opacity-75 shadow-md"
+            ? "shadow-md"
             : isSelected
               ? "ring-4 ring-pink-500 shadow-2xl"
               : "shadow-lg hover:shadow-xl"
@@ -55,18 +55,12 @@ export default function TemplatePreviewCard({
           </div>
         )}
 
-        {/* Price Badge */}
-        {template.badge && (
-          <div className={`absolute top-4 left-4 z-10 px-3 py-1 rounded-full text-sm font-semibold shadow-lg ${
-            isSoldOut
-              ? "bg-gray-400 text-white"
-              : "bg-pink-500 text-white"
-          }`}>
-            {isSoldOut ? (
-              <span className="line-through opacity-70">{template.badge}</span>
-            ) : (
-              template.badge
-            )}
+        {/* Discount Badge */}
+        {template.originalPrice && !isSoldOut && (
+          <div className="absolute top-4 left-4 z-10 flex flex-col gap-1 items-start">
+            <div className="bg-gradient-to-r from-red-500 to-pink-600 text-white text-xs font-bold px-2 py-1 rounded-lg shadow-lg">
+              {Math.round(((template.originalPrice - template.price) / template.originalPrice) * 100)}% OFF
+            </div>
           </div>
         )}
 
@@ -81,15 +75,26 @@ export default function TemplatePreviewCard({
           </motion.div>
         )}
 
-        {/* Image Preview */}
+        {/* Content Preview */}
         <div className="aspect-6/4 relative overflow-hidden bg-gray-100">
-          <img
-            src={template.thumbnailUrl}
-            alt={template.name}
-            className={`w-full h-full object-cover transition-transform duration-500 ${
-              isSoldOut ? "grayscale" : "group-hover:scale-110"
-            }`}
-          />
+          {template.videoUrl && !isSoldOut ? (
+            <video
+              src={template.videoUrl}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+          ) : (
+            <img
+              src={template.thumbnailUrl}
+              alt={template.name}
+              className={`w-full h-full object-cover transition-transform duration-500 ${
+                isSoldOut ? "grayscale" : "group-hover:scale-110"
+              }`}
+            />
+          )}
 
           {/* Sold Out Overlay */}
           {isSoldOut && (
@@ -182,7 +187,14 @@ export default function TemplatePreviewCard({
                   Selected
                 </span>
               ) : (
-                `Choose for ₹${template.price}`
+                <span className="flex items-center justify-center gap-2">
+                  <span>Get for ₹{template.price}</span>
+                  {template.originalPrice && (
+                    <span className="text-sm line-through opacity-60">
+                      ₹{template.originalPrice}
+                    </span>
+                  )}
+                </span>
               )}
             </button>
           )}

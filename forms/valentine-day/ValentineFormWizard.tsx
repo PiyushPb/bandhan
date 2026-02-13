@@ -14,6 +14,7 @@ import {
   FinalMessageStep,
   SecretLetterStep,
 } from "./steps";
+import { TEMPLATES } from "@/data/templates/valentine";
 
 interface ValentineFormWizardProps {
   templateId: TemplateId;
@@ -103,11 +104,13 @@ export default function ValentineFormWizard({
         );
 
       case "photos":
+        const currentTemplate = TEMPLATES.find(t => t.id === templateId);
         return (
           <PhotosStep
             photos={formData.photos}
             error={errors.photos}
             onUpdate={updatePhotos}
+            maxPhotos={currentTemplate?.maxPhotos || 6}
           />
         );
 
@@ -129,6 +132,7 @@ export default function ValentineFormWizard({
             fromName={formData.basicInfo.fromName}
             errors={errors.secretLetter}
             onUpdate={updateSecretLetter}
+            templateId={templateId}
           />
         );
 

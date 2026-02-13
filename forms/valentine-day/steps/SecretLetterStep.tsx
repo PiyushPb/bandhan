@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { FormInput, FormTextarea } from "@/components/forms";
 import { Mail, Sparkles } from "lucide-react";
+import { TemplateId } from "@/types/template";
 
 interface SecretLetterStepProps {
   letter?: {
@@ -20,6 +21,7 @@ interface SecretLetterStepProps {
     body?: string;
   };
   onUpdate: (field: "title" | "body" | "signature" | "password" | "passwordQuestion" | "hints", value: string | string[]) => void;
+  templateId?: TemplateId;
 }
 
 export default function SecretLetterStep({
@@ -28,6 +30,7 @@ export default function SecretLetterStep({
   fromName,
   errors,
   onUpdate,
+  templateId,
 }: SecretLetterStepProps) {
   const hints = letter?.hints || ["", "", ""];
 
@@ -100,55 +103,57 @@ export default function SecretLetterStep({
           hint="How you want to sign off"
         />
 
-        {/* Password Protection Section */}
-        <div className="pt-6 border-t border-gray-100">
-          <div className="mb-4">
-            <h3 className="text-lg font-medium text-gray-800 mb-1">
-              🔒 Password Protection Game
-            </h3>
-            <p className="text-sm text-gray-500">
-              Make them guess a password to unlock the letter! They get 20 tries.
-            </p>
-          </div>
+        {/* Password Protection Section - Only for Polaroid Memories */}
+        {templateId === "polaroid-memories" && (
+          <div className="pt-6 border-t border-gray-100">
+            <div className="mb-4">
+              <h3 className="text-lg font-medium text-gray-800 mb-1">
+                🔒 Password Protection Game
+              </h3>
+              <p className="text-sm text-gray-500">
+                Make them guess a password to unlock the letter! They get 20 tries.
+              </p>
+            </div>
 
-          <div className="space-y-4 bg-gray-50 p-6 rounded-xl border border-gray-200">
-            <FormInput
-              label="Secret Password"
-              placeholder="e.g., our anniversary date, my nickname"
-              value={letter?.password || ""}
-              onChange={(e) => onUpdate("password", e.target.value)}
-              hint="Leave empty to disable the game"
-            />
+            <div className="space-y-4 bg-gray-50 p-6 rounded-xl border border-gray-200">
+              <FormInput
+                label="Secret Password"
+                placeholder="e.g., our anniversary date, my nickname"
+                value={letter?.password || ""}
+                onChange={(e) => onUpdate("password", e.target.value)}
+                hint="Leave empty to disable the game"
+              />
 
-            {letter?.password && (
-              <div className="space-y-4">
-                <FormInput
-                  label="Password Question / Initial Hint"
-                  placeholder="e.g., What is our special date? or My nickname for you..."
-                  value={letter?.passwordQuestion || ""}
-                  onChange={(e) => onUpdate("passwordQuestion", e.target.value)}
-                  hint="This will be shown to help them guess correctly"
-                />
+              {letter?.password && (
+                <div className="space-y-4">
+                  <FormInput
+                    label="Password Question / Initial Hint"
+                    placeholder="e.g., What is our special date? or My nickname for you..."
+                    value={letter?.passwordQuestion || ""}
+                    onChange={(e) => onUpdate("passwordQuestion", e.target.value)}
+                    hint="This will be shown to help them guess correctly"
+                  />
 
-                <div className="space-y-3">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Additional Hints (revealed every 5 failed attempts)
-                  </label>
-                  {[0, 1, 2].map((i) => (
-                    <input
-                      key={i}
-                      type="text"
-                      placeholder={`Hint ${i + 1} (optional)`}
-                      value={hints[i] || ""}
-                      onChange={(e) => handleHintChange(i, e.target.value)}
-                      className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-500 focus:border-transparent outline-none transition-all"
-                    />
-                  ))}
+                  <div className="space-y-3">
+                    <label className="block text-sm font-medium text-gray-700">
+                      Additional Hints (revealed every 5 failed attempts)
+                    </label>
+                    {[0, 1, 2].map((i) => (
+                      <input
+                        key={i}
+                        type="text"
+                        placeholder={`Hint ${i + 1} (optional)`}
+                        value={hints[i] || ""}
+                        onChange={(e) => handleHintChange(i, e.target.value)}
+                        className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-500 focus:border-transparent outline-none transition-all"
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Preview */}

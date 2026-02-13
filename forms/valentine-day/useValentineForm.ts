@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect } from "react";
 import { TemplateData, TemplateId, FormState } from "@/types/template";
 import { formStorage } from "@/lib/form-storage";
 import { PhotoItem } from "@/components/forms";
+import { TEMPLATES } from "@/data/templates/valentine";
 
 // Step configuration
 export interface StepConfig {
@@ -231,6 +232,10 @@ export function useValentineForm({ templateId, autoSave = true }: UseValentineFo
         case "photos":
           if (formData.photos.length < 2) {
             newErrors.photos = "Please add at least 2 photos";
+          }
+          const template = TEMPLATES.find(t => t.id === templateId);
+          if (template?.maxPhotos && formData.photos.length > template.maxPhotos) {
+             newErrors.photos = `You can only select up to ${template.maxPhotos} photos`;
           }
           break;
 

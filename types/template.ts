@@ -10,9 +10,11 @@ export interface Template {
   name: string;
   description: string;
   thumbnailUrl: string;
+  videoUrl?: string; // Looping video thumbnail
   previewGifUrl: string;
   features: string[];
   price: number;
+  originalPrice?: number;
   badge?: string;
   isPremium?: boolean;
   maxPhotos?: number;

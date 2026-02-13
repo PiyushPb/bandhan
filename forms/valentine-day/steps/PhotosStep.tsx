@@ -8,12 +8,14 @@ interface PhotosStepProps {
   photos: { url: string; caption?: string }[];
   error?: string;
   onUpdate: (photos: PhotoItem[]) => void;
+  maxPhotos?: number;
 }
 
 export default function PhotosStep({
   photos,
   error,
   onUpdate,
+  maxPhotos = 6,
 }: PhotosStepProps) {
   const [uploading, setUploading] = useState(false);
 
@@ -143,7 +145,7 @@ export default function PhotosStep({
             label="Photos"
             photos={photoItems}
             onChange={handlePhotosChange}
-            maxPhotos={6}
+            maxPhotos={maxPhotos}
             error={error}
             maxCaptionLength={500}
         />

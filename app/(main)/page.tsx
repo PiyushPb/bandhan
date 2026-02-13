@@ -901,17 +901,19 @@ function PricingSection() {
               ))}
             </ul>
 
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className={`w-full rounded-full py-3.5 text-sm font-semibold transition-all duration-300 ${
-                plan.popular
-                  ? "bg-white text-rose-700 shadow-lg shadow-rose-900/20 hover:bg-rose-50"
-                  : "bg-neutral-900 text-white hover:bg-neutral-800"
-              }`}
-            >
-              {plan.cta}
-            </motion.button>
+            <Link href={"/occasion/valentine-day"}>
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className={`w-full rounded-full py-3.5 text-sm font-semibold transition-all duration-300 ${
+                  plan.popular
+                    ? "bg-white text-rose-700 shadow-lg shadow-rose-900/20 hover:bg-rose-50"
+                    : "bg-neutral-900 text-white hover:bg-neutral-800"
+                }`}
+              >
+                {plan.cta}
+              </motion.button>
+            </Link>
           </motion.div>
         ))}
       </motion.div>
@@ -924,7 +926,7 @@ function PricingSection() {
         transition={{ delay: 0.3, duration: 0.6 }}
         className="mt-8 text-center text-sm text-neutral-400"
       >
-        No subscriptions. No hidden fees. Create once, keep it forever.
+        No subscriptions. No hidden fees.
       </motion.p>
     </Section>
   );

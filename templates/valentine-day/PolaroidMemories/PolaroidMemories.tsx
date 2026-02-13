@@ -292,7 +292,7 @@ export default function PolaroidMemories({ data }: PolaroidMemoriesProps) {
       </section>
 
       {/* Secret Letter Section */}
-      {data.secretLetter && data.secretLetter.body && (
+      {data.secretLetter && (data.secretLetter.body || data.secretLetter.password) && (
         <section className="relative max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <motion.div
             initial={{ opacity: 0, y: 30 }}

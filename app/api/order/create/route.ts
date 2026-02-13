@@ -2,6 +2,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import { nanoid } from 'nanoid';
+import { TEMPLATES } from '@/data/templates/valentine';
 
 export async function POST(request: Request) {
   try {
@@ -23,6 +24,20 @@ export async function POST(request: Request) {
             { error: 'User must be logged in to create a template' },
             { status: 401 }
          );
+    }
+
+    // Validate photo limits
+    const templateId = data.selectedTemplate;
+    const template = TEMPLATES.find(t => t.id === templateId);
+    
+    if (template && template.maxPhotos) {
+        const photoCount = data.photos?.length || 0;
+        if (photoCount > template.maxPhotos) {
+            return NextResponse.json(
+                { error: `You can only upload up to ${template.maxPhotos} photos for this template.` },
+                { status: 400 }
+            );
+        }
     }
 
     const { error } = await supabase.from('templates').insert({

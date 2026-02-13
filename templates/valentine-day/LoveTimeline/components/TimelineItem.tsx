@@ -3,7 +3,7 @@
 "use client";
 
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ReactNode, useRef } from "react";
+import { ReactNode, useRef, memo } from "react";
 
 interface TimelineItemProps {
   children: ReactNode;
@@ -12,12 +12,12 @@ interface TimelineItemProps {
   delay?: number;
 }
 
-export default function TimelineItem({
+function TimelineItem({
   children,
   side,
   index,
   delay = 0,
-}: TimelineItemProps) {
+  }: TimelineItemProps) {
   const ref = useRef<HTMLDivElement>(null);
   
   // Interactive hover effects
@@ -175,3 +175,5 @@ export default function TimelineItem({
     </motion.div>
   );
 }
+
+export default memo(TimelineItem);

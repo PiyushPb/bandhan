@@ -1,8 +1,20 @@
 
-import { type NextRequest } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 import { updateSession } from '@/lib/supabase/middleware'
 
+import { checkRateLimit } from './lib/rate-limit'
+
 export async function middleware(request: NextRequest) {
+  // Rate Limiting (API Routes Only)
+  if (request.nextUrl.pathname.startsWith('/api')) {
+    const ip = request.headers.get('x-forwarded-for') ?? '127.0.0.1'
+    const { success } = await checkRateLimit(ip)
+    
+    if (!success) {
+      return new NextResponse('Too Many Requests', { status: 429 })
+    }
+  }
+
   return await updateSession(request)
 }
 
