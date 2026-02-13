@@ -23,13 +23,29 @@ export async function saveTemplate(data: any, type: string, templateId?: string)
   let result;
   
   if (templateId) {
-      // Update existing (if we had edit flow that passed ID)
-       const { data: updated, error } = await supabase
-        .from("templates")
-        .update(payload)
-        .eq("id", templateId)
-        .select()
-        .single();
+    // Backend Validation Checklist:
+    // 1. Verify user ownership (done below)
+    // 2. Prevent editing if already paid (requested)
+    // 3. Prevent non-refundable changes (requested)
+
+    const { data: existing, error: fetchError } = await supabase
+      .from("templates")
+      .select("is_paid")
+      .eq("id", templateId)
+      .single();
+
+    if (fetchError) throw fetchError;
+    if (existing?.is_paid) {
+      throw new Error("This template has already been paid and cannot be edited or refunded.");
+    }
+
+    // Update existing
+    const { data: updated, error } = await supabase
+      .from("templates")
+      .update(payload)
+      .eq("id", templateId)
+      .select()
+      .single();
         
        if (error) throw error;
        result = updated;

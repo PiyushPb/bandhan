@@ -20,6 +20,7 @@ function PaymentContent() {
   >("summary");
   const [uploadProgress, setUploadProgress] = useState(0);
   const [razorpayReady, setRazorpayReady] = useState(false);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
 
   useEffect(() => {
     // Try to load from our form storage (valentine-site-draft)
@@ -268,9 +269,27 @@ function PaymentContent() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 text-sm text-green-600 mb-6 bg-green-50 p-3 rounded-lg">
-                <Shield className="w-4 h-4" />
-                <span>Secured by Razorpay — 128-bit SSL Encrypted</span>
+              <div className="space-y-4 mb-8">
+                <div className="flex items-center gap-2 text-sm text-green-600 bg-green-50 p-3 rounded-lg">
+                  <Shield className="w-4 h-4" />
+                  <span>Secured by Razorpay — 128-bit SSL Encrypted</span>
+                </div>
+
+                <label className="flex items-start gap-3 p-3 rounded-lg border border-gray-200 bg-gray-50/50 cursor-pointer group transition-colors hover:border-pink-200">
+                  <div className="flex items-center h-5 mt-0.5">
+                    <input
+                      type="checkbox"
+                      checked={agreedToTerms}
+                      onChange={(e) => setAgreedToTerms(e.target.checked)}
+                      className="w-4 h-4 text-pink-600 border-gray-300 rounded focus:ring-pink-500 cursor-pointer"
+                    />
+                  </div>
+                  <span className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-900">
+                    I understand that once payment is made, this template{" "}
+                    <span className="font-semibold text-gray-900">cannot be edited</span>{" "}
+                    and is <span className="font-semibold text-gray-900">non-refundable</span>.
+                  </span>
+                </label>
               </div>
 
               {!razorpayReady && (
@@ -282,15 +301,24 @@ function PaymentContent() {
 
               <button
                 onClick={handlePayment}
-                disabled={!razorpayReady}
-                className="w-full py-4 bg-gradient-to-r from-pink-500 to-rose-600 text-white rounded-xl font-bold font-lg shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all disabled:opacity-70 disabled:hover:scale-100 flex items-center justify-center gap-2 cursor-pointer"
+                disabled={!razorpayReady || !agreedToTerms}
+                className="w-full py-4 bg-gradient-to-r from-pink-500 to-rose-600 text-white rounded-xl font-bold font-lg shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all disabled:opacity-70 disabled:hover:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
               >
                 Pay Now ₹{template.price}
               </button>
 
-              <p className="text-xs text-gray-400 text-center mt-4">
-                By proceeding, you agree to our Terms of Service
-              </p>
+              <div className="mt-6 flex flex-col gap-2">
+                <div className="flex items-center justify-center gap-4 text-[10px] text-gray-400 uppercase tracking-widest font-semibold">
+                  <span>No Refund</span>
+                  <span className="w-1 h-1 bg-gray-300 rounded-full" />
+                  <span>Final Sale</span>
+                  <span className="w-1 h-1 bg-gray-300 rounded-full" />
+                  <span>Permanent link</span>
+                </div>
+                <p className="text-[10px] text-gray-400 text-center">
+                  By proceeding, you agree to our Terms of Service & Privacy Policy
+                </p>
+              </div>
             </div>
           )}
 
